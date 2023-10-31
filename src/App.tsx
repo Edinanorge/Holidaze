@@ -1,26 +1,15 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import "./App.css";
-import Home from "./pages/Home";
-import Profile from "./pages/Profile";
-
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Home />,
-  },
-  {
-    path: "/profile/:name",
-    element: <Profile />,
-  },
-
-  {
-    path: "/profile/:name",
-    element: <Profile />,
-  },
-]);
+import { Outlet } from "react-router-dom";
+import Nav from "./ui/Header/Navbar";
+import Footer from "./ui/Footer";
 
 function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <>
+      <Nav />
+      <Outlet />
+      <Footer />
+    </>
+  );
 }
 
 export default App;
