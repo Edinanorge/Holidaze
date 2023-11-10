@@ -1,9 +1,15 @@
 import { useForm } from "react-hook-form";
 import { useEffect } from "react";
-import Modal from "../../ui/Modal";
+import Modal, { ModalFooter } from "../../ui/Modal";
 import Button from "../../ui/Button";
 import Heading from "../../ui/Heading";
 import Input from "../../ui/Input";
+import { FaSquareFacebook } from "react-icons/fa6";
+import { FcGoogle } from "react-icons/fc";
+import { BsApple } from "react-icons/bs";
+import { IoMailOutline } from "react-icons/io5";
+import ButtonIcon from "../../ui/ButtonIcon";
+import { NavLink } from "react-router-dom";
 
 interface FormProps {
   email: string;
@@ -61,6 +67,33 @@ function LoginForm() {
         <Button variation="primary" type="submit">
           Continue
         </Button>
+
+        <ModalFooter>
+          <p>or</p>
+
+          <ButtonIcon>
+            <FaSquareFacebook />
+            <span>Continue with Facebook</span>
+          </ButtonIcon>
+
+          <ButtonIcon>
+            <FcGoogle />
+            <span>Continue with Goggle</span>
+          </ButtonIcon>
+
+          <ButtonIcon>
+            <BsApple />
+            <span> Continue with Apple</span>
+          </ButtonIcon>
+
+          <ButtonIcon>
+            <IoMailOutline />
+            <span>Continue with email</span>
+          </ButtonIcon>
+          <p>
+            Dont't have an account? <NavLink to="/auth/register">Register</NavLink>{" "}
+          </p>
+        </ModalFooter>
       </form>
     </Modal>
   );

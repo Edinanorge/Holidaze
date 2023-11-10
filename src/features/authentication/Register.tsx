@@ -1,11 +1,16 @@
-import Modal from "../../ui/Modal";
+import Modal, { ModalFooter } from "../../ui/Modal";
 import Heading from "../../ui/Heading";
 import Button from "../../ui/Button";
 
 import { useForm } from "react-hook-form";
 import { useEffect } from "react";
 import Input from "../../ui/Input";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import ButtonIcon from "../../ui/ButtonIcon";
+import { FaSquareFacebook } from "react-icons/fa6";
+import { FcGoogle } from "react-icons/fc";
+import { BsApple } from "react-icons/bs";
+import { IoMailOutline } from "react-icons/io5";
 
 interface FormProps {
   username: string;
@@ -53,7 +58,7 @@ function RegisterForm() {
           type="text"
           register={register}
           error={errors.username?.message}
-          required={{ value: true, message: "Username is required" }}
+          pattern={{ value: /^[\w]+$/, message: "Username is required" }}
         />
 
         <Input
@@ -86,6 +91,33 @@ function RegisterForm() {
         <Button variation="primary" type="submit">
           Continue
         </Button>
+
+        <ModalFooter>
+          <p>or</p>
+
+          <ButtonIcon>
+            <FaSquareFacebook />
+            <span>Continue with Facebook</span>
+          </ButtonIcon>
+
+          <ButtonIcon>
+            <FcGoogle />
+            <span>Continue with Goggle</span>
+          </ButtonIcon>
+
+          <ButtonIcon>
+            <BsApple />
+            <span> Continue with Apple</span>
+          </ButtonIcon>
+
+          <ButtonIcon>
+            <IoMailOutline />
+            <span>Continue with email</span>
+          </ButtonIcon>
+          <p>
+            Allready have an account? <NavLink to="/auth/login">Log in</NavLink>{" "}
+          </p>
+        </ModalFooter>
       </form>
     </Modal>
   );

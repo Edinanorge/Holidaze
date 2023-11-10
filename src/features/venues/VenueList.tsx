@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import Heading from "../../ui/Heading.js";
-import image from "../../assets/placeholder.jpg";
+import image from "../../assets/venue-placeholder.svg";
 import { formatDate } from "../../utils/formatDate.js";
 import { AiFillStar } from "react-icons/ai";
 import { GridAuto } from "../../ui/Grid.js";
@@ -17,6 +17,28 @@ interface VenueProps {
   rating: number;
   created: string;
   updated?: string;
+  meta: {
+    wifi: true;
+    parking: true;
+    breakfast: true;
+    pets: true;
+  };
+  location: { address: string; city: string; zip: string; country: string; lat: number; lng: number };
+  owner: {
+    name: string;
+    email: string;
+    avatar: string;
+  };
+  bookings: [
+    {
+      id: string;
+      dateFrom: string;
+      dateTo: string;
+      guests: number;
+      created: string;
+      updated: string;
+    }
+  ];
 }
 
 const StyledVenue = styled.li`
@@ -42,7 +64,7 @@ const VenueContent = styled.div`
   }
 `;
 
-function Venue({ id, name, media, price, created, rating }: VenueProps) {
+function Venue({ id, name, media, price, created, rating, location, maxGuests }: VenueProps) {
   return (
     <Link to={`/venues/${id}`}>
       <StyledVenue>
@@ -50,8 +72,11 @@ function Venue({ id, name, media, price, created, rating }: VenueProps) {
         <VenueContent>
           <div>
             <Heading as="h2">{name}</Heading>
-            <span>{formatDate(created)}</span>
-            <Heading as="h2">
+            <span>Maximum guests: {maxGuests}</span>
+            <p>
+              {formatDate(created)} . {location.country === "Unknown" ? "" : location.country}
+            </p>
+            <Heading as="h3">
               {price} kr /<span>night</span>
             </Heading>
           </div>
@@ -80,6 +105,11 @@ function VenuesList({ venues }: { venues: VenueProps[] }) {
           id={venue.id}
           rating={venue.rating}
           description={venue.description}
+          location={venue.location}
+          meta={venue.meta}
+          owner={venue.owner}
+          bookings={venue.bookings}
+          maxGuests={venue.maxGuests}
         />
       ))}
     </GridAuto>

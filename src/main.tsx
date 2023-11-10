@@ -3,20 +3,23 @@ import ReactDOM from "react-dom/client";
 
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-import Profile from "./pages/Profile";
+import Profile from "./pages/profile/Profile.tsx";
 import ErrorPage from "./pages/Error.tsx";
 import GlobalStyles from "./GlobalStyles.tsx";
-import App from "./App.tsx";
 import Home from "./pages/Home.tsx";
-import LoginForm from "./features/authentication/Login.tsx";
-import RegisterForm from "./features/authentication/Register.tsx";
-import Profiles from "./pages/Profile";
+
+import Profiles from "./pages/profile/Profile.tsx";
 import Venue from "./pages/Venue.tsx";
+import Login from "./pages/auth/Login.tsx";
+import Register from "./pages/auth/Register.tsx";
+import AppLayout from "./AppLayout.tsx";
+import VenuesByProfile from "./pages/profile/Venues.tsx";
+import BookingByProfile from "./pages/profile/Bookings.tsx";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
+    element: <AppLayout />,
     errorElement: <ErrorPage />,
     children: [
       {
@@ -30,21 +33,26 @@ const router = createBrowserRouter([
 
       {
         path: "/auth/login",
-        element: <LoginForm />,
+        element: <Login />,
       },
       {
         path: "/auth/register",
-        element: <RegisterForm />,
+        element: <Register />,
       },
 
       {
         path: "/profiles/:name",
-        element: <Profiles />,
+        element: <Profile />,
       },
 
       {
-        path: "/profile/:name/bookings",
-        element: <Profile />,
+        path: "/profiles/:name/bookings",
+        element: <BookingByProfile />,
+      },
+
+      {
+        path: "/profiles/:name/venues",
+        element: <VenuesByProfile />,
       },
     ],
   },
