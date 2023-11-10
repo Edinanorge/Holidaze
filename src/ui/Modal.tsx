@@ -1,11 +1,7 @@
 import { NavLink } from "react-router-dom";
 import { FaTimes } from "react-icons/fa";
-import { FaSquareFacebook } from "react-icons/fa6";
-import { FcGoogle } from "react-icons/fc";
-import { BsApple } from "react-icons/bs";
-import { IoMailOutline } from "react-icons/io5";
+
 import styled from "styled-components";
-import ButtonIcon from "./ButtonIcon";
 
 interface ModalProps {
   children: React.ReactElement;
@@ -14,8 +10,9 @@ interface ModalProps {
 const StyledModal = styled.div`
   display: flex;
   justify-content: center;
-  align-items: center;
+
   position: fixed;
+
   top: 0;
   bottom: 0;
   left: 0;
@@ -23,12 +20,16 @@ const StyledModal = styled.div`
 
   z-index: 999;
   background-color: rgb(3 3 3 / 0.5);
+  overflow-y: scroll;
+  overflow-x: hidden;
 `;
 
 const ModalContent = styled.div`
   position: relative;
   padding: 2rem;
+margin:6rem 0;
   width: 60rem;
+  height:fit-content;
   background-color: var(--color-gray-0);
   border-radius: var(--border-radius);
 
@@ -36,7 +37,7 @@ const ModalContent = styled.div`
   
   @keyframes animate {
     0% {
-      transform: translatey(100%);
+      transform: translateY(100%);
       opacity:0;
     }
     100% {
@@ -66,7 +67,7 @@ const ModalBody = styled.div`
   }
 `;
 
-const ModalFooter = styled.div`
+export const ModalFooter = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -85,29 +86,6 @@ function Modal({ children }: ModalProps) {
           <FaTimes />
         </NavLink>
         <ModalBody>{children}</ModalBody>
-        <ModalFooter>
-          <p>or</p>
-
-          <ButtonIcon>
-            <FaSquareFacebook />
-            <span>Continue with Facebook</span>
-          </ButtonIcon>
-
-          <ButtonIcon>
-            <FcGoogle />
-            <span>Continue with Goggle</span>
-          </ButtonIcon>
-
-          <ButtonIcon>
-            <BsApple />
-            <span> Continue with Apple</span>
-          </ButtonIcon>
-
-          <ButtonIcon>
-            <IoMailOutline />
-            <span>Continue with email</span>
-          </ButtonIcon>
-        </ModalFooter>
       </ModalContent>
     </StyledModal>
   );

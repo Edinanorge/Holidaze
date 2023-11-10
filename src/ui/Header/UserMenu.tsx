@@ -21,18 +21,19 @@ const StyledUserMenu = styled.div`
 `;
 
 const StyledMenu = styled.div`
+  border-radius: var(--border-radius-lg);
+  border: var(--border);
   display: flex;
   align-items: center;
   gap: 1rem;
   padding: 1rem;
-  border-radius: var(--border-radius-lg);
-  border: var(--border);
 `;
 
 const Menu = styled.div`
   position: absolute;
   top: 5rem;
   right: 0;
+  width: max-content;
 
   border-radius: var(--border-radius);
   box-shadow: var(--shadow-sm);
@@ -50,8 +51,13 @@ const MenuItem = styled(NavLink)`
     background-color: var(--color-gray-200);
   }
 `;
+
 function UserMenu() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isLogedIn, setIsLogedIn] = useState(true);
+  const [isManeger, setIsManager] = useState(true);
+
+  if (!isLogedIn) return null;
 
   return (
     <StyledUserMenu>
@@ -68,13 +74,35 @@ function UserMenu() {
       </StyledMenu>
       {isOpen && (
         <Menu>
-          <>
-            <MenuItem to="/auth/login">Log In</MenuItem>
-            <MenuItem to="/auth/register">Sign up</MenuItem>
-            <hr />
-            <MenuItem to="#">Holidaze your home</MenuItem>
-            <MenuItem to="#">Help Center</MenuItem>
-          </>
+          {isLogedIn && isManeger ? (
+            <>
+              <MenuItem to="/profiles/:name">Profile</MenuItem>
+              <MenuItem to="/profiles/:name/bookings">Bookings</MenuItem>
+              <MenuItem to="/profiles/:name/venues">Venues</MenuItem>
+              <MenuItem to="/">Log Out</MenuItem>
+              <hr />
+              <MenuItem to="#">Holidaze your home</MenuItem>
+              <MenuItem to="#">Help Center</MenuItem>
+            </>
+          ) : isLogedIn ? (
+            <>
+              <MenuItem to="/profiles/:name">Profile</MenuItem>
+              <MenuItem to="/profiles/:name/bookings">Bookings</MenuItem>
+
+              <MenuItem to="/">Log Out</MenuItem>
+              <hr />
+              <MenuItem to="#">Holidaze your home</MenuItem>
+              <MenuItem to="#">Help Center</MenuItem>
+            </>
+          ) : (
+            <>
+              <MenuItem to="/auth/login">Log In</MenuItem>
+              <MenuItem to="/auth/register">Sign up</MenuItem>
+              <hr />
+              <MenuItem to="#">Holidaze your home</MenuItem>
+              <MenuItem to="#">Help Center</MenuItem>
+            </>
+          )}
         </Menu>
       )}
     </StyledUserMenu>

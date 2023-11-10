@@ -5,12 +5,17 @@ import Logo from "./Logo";
 import Search from "./Search";
 import UserMenu from "./UserMenu";
 
+
 const StyledHeader = styled.header`
   position: fixed;
   width: 100%;
   background-color: var(--color-gray-0);
   border-bottom: var(--border);
-  z-index: 9999;
+  z-index: 999;
+
+  @media only screen and (max-width: 500px) {
+    padding-x: 0;
+  }
 `;
 
 const StyledNav = styled.nav`
@@ -18,20 +23,22 @@ const StyledNav = styled.nav`
   gap: 1rem;
   justify-content: space-between;
   align-items: center;
-  padding: 2rem;
+  padding: 2rem 0;
 `;
 
-function Navbar() {
+function Header() {
   return (
-    <StyledHeader>
-      <Container>
-        <StyledNav>
-          <Logo />
-          <Search />
-          <UserMenu />
-        </StyledNav>
-      </Container>
-    </StyledHeader>
+   
+      <StyledHeader>
+        <Container>
+          <StyledNav>
+            <Logo />
+            <Search />
+            <UserMenu />
+          </StyledNav>
+        </Container>
+      </StyledHeader>
+  
   );
 }
-export default Navbar;
+export default Header;

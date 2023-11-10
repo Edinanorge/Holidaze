@@ -17,15 +17,14 @@ const StyledLogo = styled.a`
     @media only screen and (max-width: 1000px) {
       display: none;
     }
-  }
 
+    @media only screen and (max-width: 500px) {
+      display: block;
+    }
+  }
   & svg {
     width: 4rem;
     height: 4rem;
-  }
-
-  @media only screen and (max-width: 700px) {
-    display: none;
   }
 `;
 

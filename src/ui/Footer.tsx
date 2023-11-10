@@ -80,7 +80,6 @@ function Footer() {
               <a href="#">Careers</a>
               <a href="#">Investors</a>
               <a href="#">Gift cards</a>
-              <a href="#">Airbnb.org emergency stays</a>
             </div>
           </GridCols>
         </StyledFooterSecondary>
