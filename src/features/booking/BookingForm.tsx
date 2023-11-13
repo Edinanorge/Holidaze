@@ -3,7 +3,8 @@ import styled from "styled-components";
 import Button from "../../ui/Button";
 import Heading from "../../ui/Heading";
 import TextCenter from "../../ui/TextCenter";
-import { format } from "date-fns";
+import { format, differenceInDays } from "date-fns";
+import { formatCurrency } from "../../utils/formatCurrency";
 
 interface VenueProps {
   key: string;
@@ -40,42 +41,58 @@ interface VenueProps {
   ];
 }
 
+interface DateRangeProps {
+  startDate: Date;
+  endDate: Date;
+  key: string;
+}
+
 interface VenueProp {
   venue: VenueProps;
+  selectedDateRange: DateRangeProps[];
 }
 
 const StyledBookingForm = styled.form`
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  width: 60%;
+  width: 80%;
   padding: 4rem;
-  margin: 3rem auto;
+  margin: 3rem 0 3rem auto;
   box-shadow: var(--shadow-lg);
 
   @media only screen and (max-width: 1100px) {
     width: 100%;
+    margin: 3rem auto;
   }
 `;
 
-function BookingForm({ venue }: VenueProp) {
+function BookingForm({ venue, selectedDateRange }: VenueProp) {
   return (
     <StyledBookingForm>
-      <Heading as="h2">{venue.price} kr / night</Heading>
+      <Heading as="h2">{formatCurrency(venue.price)} / night</Heading>
 
       <label htmlFor="checkin">Check in</label>
-      <input type="date" name="checkin" min={`${format(new Date(), "dd.MM.yyyy")}`}></input>
+
+      <input type="text" placeholder={`${format(new Date(selectedDateRange[0].startDate), "MM.dd.yyyy")}`} disabled />
 
       <label>Check out </label>
-      <input type="date"></input>
+      <input type="text" placeholder={`${format(new Date(selectedDateRange[0].endDate), "MM.dd.yyyy")}`} disabled />
 
       <label>Guests </label>
-      <input type="number" max={venue.maxGuests} min="1" placeholder="1"></input>
+      <input type="number" max={venue.maxGuests} min="1" placeholder="1" />
 
-      <Button variation="primary">Reserve</Button>
+      <Button variation="secondary">Reserve</Button>
       <TextCenter>
         <p>You won't be charged yet</p>
       </TextCenter>
+      <hr />
+      <Heading as="h2">
+        Total{" "}
+        {formatCurrency(differenceInDays(selectedDateRange[0].endDate, selectedDateRange[0].startDate) * venue.price)} /
+        night
+      </Heading>
+      <p>price</p>
     </StyledBookingForm>
   );
 }

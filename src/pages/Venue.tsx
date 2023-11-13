@@ -1,23 +1,23 @@
-import styled from "styled-components";
-import Container from "../ui/Container";
-import SkeletonVenuePage from "../ui/Skeleton/SkeletonVenuePage";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { getVenue } from "../services/apiVenues";
+
+import styled from "styled-components";
+import Container from "../ui/Container";
+import SkeletonVenuePage from "../ui/Skeleton/SkeletonVenuePage";
 import Heading from "../ui/Heading";
-import { AiFillStar, AiOutlineHeart, AiOutlineWifi } from "react-icons/ai";
+import BookingForm from "../features/booking/BookingForm.tsx";
+import Button from "../ui/Button";
+import Location from "../ui/LeafletMap.tsx";
+import Details from "../features/venues/VenueDetails.tsx";
+
+import { AiFillStar, AiOutlineHeart } from "react-icons/ai";
 import { PiMedalFill } from "react-icons/pi";
 import { LuShare } from "react-icons/lu";
 import { GridColsTwo } from "../ui/Grid";
-import placeholder from "../assets/venue-placeholder.svg";
-import BookingForm from "../features/booking/BookingForm";
-import { FaSquareParking } from "react-icons/fa6";
-import { MdFreeBreakfast, MdPets } from "react-icons/md";
-import Button from "../ui/Button";
-import { BsDot } from "react-icons/bs";
-
-import VenuesList from "../features/venues/VenueList";
-import DateRangePicker from "../ui/DateRangePicker";
+import Gallery from "../ui/Gallery.tsx";
+import BookingDateRangePicker from "../ui/DateRangePicker";
+import { addDays } from "date-fns";
 
 interface VenueProps {
   key: string;
@@ -54,17 +54,17 @@ interface VenueProps {
   ];
 }
 
+interface DateRangeProps {
+  startDate: Date;
+  endDate: Date;
+  key: string;
+}
+
 const StyledVenuePage = styled.main`
   padding: 16rem 0;
 
   h1 {
     text-align: start;
-  }
-
-  img {
-    width: 50%;
-    height: 40rem;
-    object-fit: cover;
   }
 
   & .align-left {
@@ -84,75 +84,16 @@ const GridItem = styled.div`
     display: block;
   }
 `;
+
 const StyledGridColsTwo = styled(GridColsTwo)`
   align-items: start;
   gap: 3rem;
-`;
-
-const Gallery = styled.div`
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: repeat(2, 1fr);
-  gap: 1rem;
-  margin: 2rem 0;
-  border-radius: var(--border-radius);
-  overflow: hidden;
-
-  img {
-    width: 100%;
-    height: 20rem;
-    object-fit: cover;
-  }
-
-  img:first-child {
-    grid-column: 1/3;
-    grid-row: 1/3;
-    height: 41rem;
-  }
 
   @media only screen and (max-width: 900px) {
-    grid-template-columns: repeat(2, 1fr);
+    display: block;
   }
 `;
 
-const StyledOffersContainer = styled.div`
-  margin: 3rem 0;
-`;
-
-const StyledOffers = styled.div`
-  display: flex;
-  gap: 2rem;
-  align-items: center;
-  margin-top: 2rem;
-  & svg {
-    color: var(--color-brand-50);
-    font-size: 2rem;
-  }
-`;
-const StyledDetails = styled.div`
-  margin: 0 0 3rem 0;
-`;
-
-const StyledHosteInfo = styled.div`
-  display: flex;
-  gap: 1rem;
-  align-items: center;
-  margin: 3rem 0;
-
-  & img {
-    width: 4rem;
-    height: 4rem;
-    object-fit: cover;
-    border-radius: 100%;
-  }
-`;
-
-const StyledLocation = styled.div`
-  margin: 3rem 0;
-`;
-const StyledDescription = styled.div`
-  margin: 3rem 0;
-`;
 const StyledDates = styled.div`
   margin: 3rem 0;
   & h3 {
@@ -164,6 +105,19 @@ function Venue() {
   const [venue, setVenue] = useState<VenueProps>();
   const [loading, setLoading] = useState(true);
   const { id } = useParams();
+  const [selectedDateRange, setSelectedDateRange] = useState<DateRangeProps[]>([
+    {
+      startDate: new Date(),
+      endDate: addDays(new Date(), 1),
+      key: "selection",
+    },
+  ]);
+
+  const handleDateRangeChange = (newDateRange: DateRangeProps) => {
+    setSelectedDateRange([newDateRange]);
+
+    console.log("Selected Date Range:", newDateRange);
+  };
 
   const fetchData = async () => {
     const data = await getVenue(id);
@@ -206,75 +160,23 @@ function Venue() {
                 </div>
               </GridItem>
             </GridColsTwo>
-            <Gallery>
-              <img src={venue.media[0]} alt={venue.name} />
-              <img src={venue.media[0]} alt={venue.name} />
-              <img src={venue.media[1] ? venue.media[1] : placeholder} alt={venue.name} />
-              <img src={venue.media[2] ? venue.media[2] : placeholder} alt={venue.name} />
-              <img src={venue.media[3] ? venue.media[3] : placeholder} alt={venue.name} />
-            </Gallery>
+            <Gallery venue={venue} />
             <StyledGridColsTwo>
-              <div>
-                <StyledDetails>
-                  <Heading as="h2">{venue.name}</Heading>
-                  <p>
-                    {venue.maxGuests} guests <BsDot /> 1 room <BsDot /> 1 Bath
-                  </p>
-                  <div>
-                    <AiFillStar /> {venue.rating} reviews
-                  </div>
-                </StyledDetails>
-                <hr />
-                <StyledHosteInfo>
-                  <img src={venue.owner.avatar} alt="avartar" />
-                  <div>
-                    <Heading as="h3">Hosted By {venue.owner.name}</Heading>
-                    <p>Email: {venue.owner.email}</p>
-                  </div>
-                </StyledHosteInfo>
-                <hr />
-                <StyledOffersContainer>
-                  <Heading as="h3">What this place offers</Heading>
-                  <GridColsTwo>
-                    <StyledOffers>
-                      <AiOutlineWifi />
-                      {venue.meta.wifi ? "WIFI" : "NoWifi"}
-                    </StyledOffers>
-                    <StyledOffers>
-                      <FaSquareParking />
-                      {venue.meta.parking ? "Parking" : "NO Parking"}
-                    </StyledOffers>
-                    <StyledOffers>
-                      <MdFreeBreakfast />
-                      {venue.meta.breakfast ? "Breakfast" : "NO Breakfast"}
-                    </StyledOffers>
-                    <StyledOffers>
-                      <MdPets />
-                      {venue.meta.pets ? "Pets" : "NO Pets"}
-                    </StyledOffers>
-                  </GridColsTwo>
-                </StyledOffersContainer>
-                <hr />
-                <StyledLocation>
-                  <Heading as="h3">Where this place is</Heading>
-                  <p>Address: {venue.location.address}</p>
-                  <p>City: {venue.location.city}</p>
-                  <p>Country: {venue.location.country}</p>
-                </StyledLocation>
-                <hr />
-                <StyledDescription>
-                  <Heading as="h3">About the space</Heading>
-                  <p>{venue.description}</p>
-                </StyledDescription>
-                <StyledDates>
-                  <Heading as="h3">Awailable Dates</Heading>
-                  <DateRangePicker bookings={venue.bookings} />
-                </StyledDates>
-              </div>
-              <div>
-                <BookingForm venue={venue} />
-              </div>
+              <Details venue={venue} />
+              <BookingForm venue={venue} selectedDateRange={selectedDateRange} />
             </StyledGridColsTwo>
+            <hr />
+            <StyledDates>
+              <Heading as="h3">Awailable Dates</Heading>
+              <BookingDateRangePicker
+                bookings={venue.bookings}
+                selectedDateRange={selectedDateRange}
+                onDateRangeChange={handleDateRangeChange}
+              />
+            </StyledDates>
+
+            <hr />
+            <Location position={[venue.location.lat, venue.location.lng]} name={venue.name} />
           </div>
         )}
       </Container>

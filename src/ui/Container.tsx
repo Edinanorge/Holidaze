@@ -6,9 +6,13 @@ interface ConatinerProps {
 
 const StyledContainer = styled.div`
   position: relative;
-  max-width: 1800px;
+  max-width: 1600px;
   margin: 0 auto;
-  padding: 0 2rem;
+  padding: 0 4rem;
+
+  @media only screen and (max-width: 500px) {
+    padding: 0 1rem;
+  }
 `;
 
 function Container({ children }: ConatinerProps) {
