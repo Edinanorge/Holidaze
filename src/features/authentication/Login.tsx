@@ -1,23 +1,30 @@
 import { useForm } from "react-hook-form";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
+
 import Modal, { ModalFooter } from "../../ui/Modal";
 import Button from "../../ui/Button";
 import Heading from "../../ui/Heading";
 import Input from "../../ui/Input";
+import ButtonIcon from "../../ui/ButtonIcon";
 import { FaSquareFacebook } from "react-icons/fa6";
 import { FcGoogle } from "react-icons/fc";
 import { BsApple } from "react-icons/bs";
 import { IoMailOutline } from "react-icons/io5";
-import ButtonIcon from "../../ui/ButtonIcon";
-import { NavLink } from "react-router-dom";
+import { StyledErrosMessage } from "./Register";
 
-interface FormProps {
+import { loginUser } from "../../services/aoiAuth";
+import { useAuth } from "../../context/authContext";
+
+interface FormDataLoginProps {
   email: string;
-  password: string | number;
+  password: string;
 }
 
 function LoginForm() {
-  const form = useForm<FormProps>({
+  const navigate = useNavigate();
+  const { login } = useAuth();
+  const form = useForm<FormDataLoginProps>({
     defaultValues: {
       email: "",
       password: "",
@@ -25,16 +32,29 @@ function LoginForm() {
   });
   const { register, handleSubmit, formState, reset } = form;
   const { errors, isSubmitSuccessful } = formState;
+  const [serverErrors, setServerErrors] = useState("");
 
-  const onSubmit = (data: FormProps) => {
+  async function onSubmit(formData: FormDataLoginProps) {
     //send data to API
-    console.log("Data", data);
+    const data = await loginUser(formData);
 
-    //navigate to profile page
-  };
+    //handling server errors
+    if (data.errors) {
+      setServerErrors(data.errors[0].message);
+    } else {
+      //save user
+      login(data);
+
+      //navigate to profile page
+      setTimeout(() => {
+        navigate(`/profiles/${data.name}`);
+      }, 1000);
+    }
+  }
 
   useEffect(() => {
     reset();
+    setServerErrors("");
   }, [isSubmitSuccessful, reset]);
 
   return (
@@ -64,6 +84,8 @@ function LoginForm() {
           required={{ value: true, message: "Password is required" }}
           minLength={{ value: 8, message: "Password must be at least 8 characters" }}
         />
+
+        {serverErrors && <StyledErrosMessage>{serverErrors}</StyledErrosMessage>}
         <Button variation="primary" type="submit">
           Continue
         </Button>

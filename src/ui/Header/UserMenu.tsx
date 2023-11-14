@@ -7,6 +7,7 @@ import Button from "../Button";
 import Avatar from "../Avatar";
 
 import { NavLink } from "react-router-dom";
+import { useAuth } from "../../context/authContext";
 
 const StyledUserMenu = styled.div`
   position: relative;
@@ -54,10 +55,8 @@ const MenuItem = styled(NavLink)`
 
 function UserMenu() {
   const [isOpen, setIsOpen] = useState(false);
-  const [isLogedIn, setIsLogedIn] = useState(true);
-  const [isManeger, setIsManager] = useState(true);
-
-  if (!isLogedIn) return null;
+  const { isAuthenticated, isManager } = useAuth();
+  console.log(isAuthenticated);
 
   return (
     <StyledUserMenu>
@@ -74,35 +73,28 @@ function UserMenu() {
       </StyledMenu>
       {isOpen && (
         <Menu>
-          {isLogedIn && isManeger ? (
+          {isAuthenticated && isManager ? (
             <>
               <MenuItem to="/profiles/:name">Profile</MenuItem>
               <MenuItem to="/profiles/:name/bookings">Bookings</MenuItem>
               <MenuItem to="/profiles/:name/venues">Venues</MenuItem>
               <MenuItem to="/">Log Out</MenuItem>
-              <hr />
-              <MenuItem to="#">Holidaze your home</MenuItem>
-              <MenuItem to="#">Help Center</MenuItem>
             </>
-          ) : isLogedIn ? (
+          ) : isAuthenticated ? (
             <>
               <MenuItem to="/profiles/:name">Profile</MenuItem>
               <MenuItem to="/profiles/:name/bookings">Bookings</MenuItem>
-
               <MenuItem to="/">Log Out</MenuItem>
-              <hr />
-              <MenuItem to="#">Holidaze your home</MenuItem>
-              <MenuItem to="#">Help Center</MenuItem>
             </>
           ) : (
             <>
               <MenuItem to="/auth/login">Log In</MenuItem>
               <MenuItem to="/auth/register">Sign up</MenuItem>
-              <hr />
-              <MenuItem to="#">Holidaze your home</MenuItem>
-              <MenuItem to="#">Help Center</MenuItem>
             </>
           )}
+          <hr />
+          <MenuItem to="#">Holidaze your home</MenuItem>
+          <MenuItem to="#">Help Center</MenuItem>
         </Menu>
       )}
     </StyledUserMenu>

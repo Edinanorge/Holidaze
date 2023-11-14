@@ -1,7 +1,7 @@
 import Modal, { ModalFooter } from "../../ui/Modal";
 import Heading from "../../ui/Heading";
 import Button from "../../ui/Button";
-
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useEffect } from "react";
 import Input from "../../ui/Input";
@@ -11,37 +11,55 @@ import { FaSquareFacebook } from "react-icons/fa6";
 import { FcGoogle } from "react-icons/fc";
 import { BsApple } from "react-icons/bs";
 import { IoMailOutline } from "react-icons/io5";
+import { registerUser } from "../../services/aoiAuth";
+import styled from "styled-components";
 
-interface FormProps {
-  username: string;
+interface FormDataProps {
+  name: string;
   email: string | number;
   avatar: string;
   password: string;
   manager: boolean;
 }
 
+export const StyledErrosMessage = styled.p`
+  text-align: center;
+  color: var(--color-red-100);
+  font-weigth: 700;
+  font-size: 2rem;
+`;
+
 function RegisterForm() {
   const navigate = useNavigate();
-  const form = useForm<FormProps>({
+
+  const form = useForm<FormDataProps>({
     defaultValues: {
-      username: "",
+      name: "",
       email: "",
       password: "",
       avatar: "",
       manager: false,
     },
   });
+
   const { register, handleSubmit, formState, reset } = form;
   const { errors, isSubmitSuccessful } = formState;
+  const [serverErrors, setServerErrors] = useState("");
 
-  const onSubmit = (data: FormProps) => {
+  async function onSubmit(formData: FormDataProps) {
     //send data to API
-    console.log("Data", data);
-    //navigate to login page
-    setTimeout(() => {
-      navigate("/auth/login");
-    }, 300);
-  };
+    const data = await registerUser(formData);
+
+    //handlig server errors
+    if (data.errors) {
+      setServerErrors(data.errors[0].message);
+    } else {
+      //navigate to login page
+      setTimeout(() => {
+        navigate("/auth/login");
+      }, 300);
+    }
+  }
 
   useEffect(() => {
     reset();
@@ -53,12 +71,16 @@ function RegisterForm() {
         <Heading as="h1">Sign up</Heading>
 
         <Input
-          label="Username"
-          id="username"
+          label="Name"
+          id="name"
           type="text"
           register={register}
-          error={errors.username?.message}
-          pattern={{ value: /^[\w]+$/, message: "Username is required" }}
+          error={errors.name?.message}
+          required={{ value: true, message: "Name is required" }}
+          pattern={{
+            value: /^[\w]+$/,
+            message: "The name value must not contain punctuation symbols apart from underscore (_).",
+          }}
         />
 
         <Input
@@ -88,6 +110,7 @@ function RegisterForm() {
 
         <Input label="Venue manager" id="manager" type="checkbox" register={register} />
 
+        {serverErrors && <StyledErrosMessage>{serverErrors}</StyledErrosMessage>}
         <Button variation="primary" type="submit">
           Continue
         </Button>
