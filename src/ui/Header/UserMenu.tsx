@@ -55,7 +55,7 @@ const MenuItem = styled(NavLink)`
 
 function UserMenu() {
   const [isOpen, setIsOpen] = useState(false);
-  const { isAuthenticated, isManager } = useAuth();
+  const { isAuthenticated, isManager, logout } = useAuth();
   console.log(isAuthenticated);
 
   return (
@@ -78,13 +78,17 @@ function UserMenu() {
               <MenuItem to="/profiles/:name">Profile</MenuItem>
               <MenuItem to="/profiles/:name/bookings">Bookings</MenuItem>
               <MenuItem to="/profiles/:name/venues">Venues</MenuItem>
-              <MenuItem to="/">Log Out</MenuItem>
+              <MenuItem to="/" onClick={logout}>
+                Log Out
+              </MenuItem>
             </>
           ) : isAuthenticated ? (
             <>
               <MenuItem to="/profiles/:name">Profile</MenuItem>
               <MenuItem to="/profiles/:name/bookings">Bookings</MenuItem>
-              <MenuItem to="/">Log Out</MenuItem>
+              <MenuItem to="/" onClick={logout}>
+                Log Out
+              </MenuItem>
             </>
           ) : (
             <>
