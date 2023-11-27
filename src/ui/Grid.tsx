@@ -9,7 +9,7 @@ export const GridAuto = styled.ul`
   row-gap: 6rem;
 `;
 
-export const GridCols = styled.div`
+export const GridCols = styled.ul`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(30rem, 1fr));
   justifi-content: center;
@@ -29,4 +29,5 @@ export const GridColsTwo = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   align-items: center;
+  gap: 2rem;
 `;

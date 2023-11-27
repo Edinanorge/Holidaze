@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { GridAuto } from "../Grid";
+import { SkeletonImage, SkeletonText, SkeletonTitle } from ".";
 
 const StyledSkeletonVenue = styled.li`
   margin-top: 3rem;
@@ -21,27 +22,6 @@ const StyledSkeletonVenue = styled.li`
   }
 `;
 
-export const SkeletonImage = styled.div`
-  width: 100%;
-  height: 25rem;
-  margin-bottom: 1rem;
-  border-radius: var(--border-radius);
-  background-color: var(--color-gray-400);
-`;
-
-export const SkeletonTitle = styled.div`
-  height: 1rem;
-  width: 60%;
-  margin-bottom: 1rem;
-  background-color: var(--color-gray-300);
-`;
-
-export const SkeletonText = styled.div`
-  width: 80%;
-  height: 0.5rem;
-  margin-bottom: 1rem;
-  background-color: var(--color-gray-300);
-`;
 
 const SkeletenPrice = styled.div`
   width: 20%;

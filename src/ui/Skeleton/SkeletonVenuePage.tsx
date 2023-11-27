@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { SkeletonImage, SkeletonText, SkeletonTitle } from "./SkeletonHomePage";
+import { SkeletonImage, SkeletonText, SkeletonTitle } from ".";
 import { GridColsTwo } from "../Grid";
 
 const StyledSkeletonVenue = styled.div`

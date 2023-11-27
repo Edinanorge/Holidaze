@@ -51,6 +51,7 @@ const Button = styled.button<ButtonProps>`
   background-color: inherit;
   border: none;
   font-weight: 500;
+  margin-top: 2rem;
 
   ${(props) => props.variation && variations[props.variation]}
 `;

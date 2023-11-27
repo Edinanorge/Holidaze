@@ -7,7 +7,7 @@ interface ModalProps {
   children: React.ReactElement;
 }
 
-const StyledModal = styled.div`
+const StyledModal = styled.main`
   display: flex;
   justify-content: center;
 
@@ -27,12 +27,17 @@ const StyledModal = styled.div`
 const ModalContent = styled.div`
   position: relative;
   padding: 2rem;
-margin:6rem 0;
+  margin:6rem 0;
   width: 60rem;
   height:fit-content;
   background-color: var(--color-gray-0);
   border-radius: var(--border-radius);
 
+  & h1 {
+  text-align:center;
+  margin-bottom:3rem;
+  }
+  
   animation: animate 0.35s ease-out;
   
   @keyframes animate {

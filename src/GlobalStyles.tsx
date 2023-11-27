@@ -65,7 +65,7 @@ html {
 
  body {
   font-family: var(--font-family);
-  font-size: 1.6rem;
+  font-size: 1.4rem;
   color: var(--color-gray-800);
   background: var(--color-gray-0);
 
@@ -79,6 +79,10 @@ html {
  img {
   max-width: 100%;
  }
+
+input{
+padding:1rem 1.5rem;
+}
 
  input,
  button,

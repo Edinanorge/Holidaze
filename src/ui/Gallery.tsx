@@ -13,10 +13,10 @@ interface VenueProps {
   created: string;
   updated?: string;
   meta: {
-    wifi: true;
-    parking: true;
-    breakfast: true;
-    pets: true;
+    wifi: boolean;
+    parking: boolean;
+    breakfast: boolean;
+    pets: boolean;
   };
   location: { address: string; city: string; zip: string; country: string; lat: number; lng: number };
   owner: {

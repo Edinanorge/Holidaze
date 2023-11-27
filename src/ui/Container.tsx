@@ -1,10 +1,6 @@
 import { styled } from "styled-components";
 
-interface ConatinerProps {
-  children: React.ReactNode;
-}
-
-const StyledContainer = styled.div`
+const Container = styled.div`
   position: relative;
   max-width: 1600px;
   margin: 0 auto;
@@ -14,9 +10,5 @@ const StyledContainer = styled.div`
     padding: 0 1rem;
   }
 `;
-
-function Container({ children }: ConatinerProps) {
-  return <StyledContainer>{children}</StyledContainer>;
-}
 
 export default Container;
