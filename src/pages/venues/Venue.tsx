@@ -1,23 +1,24 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { getVenue } from "../services/apiVenues";
+import { getVenue } from "../../services/apiVenues.tsx";
 
 import styled from "styled-components";
-import Container from "../ui/Container";
-import SkeletonVenuePage from "../ui/Skeleton/SkeletonVenuePage";
-import Heading from "../ui/Heading";
-import BookingForm from "../features/booking/BookingForm.tsx";
-import Button from "../ui/Button";
-import Location from "../ui/LeafletMap.tsx";
-import Details from "../features/venues/VenueDetails.tsx";
+import Container from "../../ui/Container.tsx";
+import SkeletonVenuePage from "../../ui/Skeleton/SkeletonVenuePage.tsx";
+import Heading from "../../ui/Heading.tsx";
+import BookingForm from "../../features/booking/BookingForm.tsx";
+import Button from "../../ui/Button.tsx";
+import Location from "../../ui/LeafletMap.tsx";
+import Details from "../../features/venues/VenueDetails.tsx";
 
 import { AiFillStar, AiOutlineHeart } from "react-icons/ai";
 import { PiMedalFill } from "react-icons/pi";
 import { LuShare } from "react-icons/lu";
-import { GridColsTwo } from "../ui/Grid";
-import Gallery from "../ui/Gallery.tsx";
-import BookingDateRangePicker from "../ui/DateRangePicker";
+import { GridColsTwo } from "../../ui/Grid.tsx";
+import Gallery from "../../ui/Gallery.tsx";
+import BookingDateRangePicker from "../../ui/DateRangePicker.tsx";
 import { addDays } from "date-fns";
+import Page from "../../ui/Page.tsx";
 
 interface VenueProps {
   key: string;
@@ -31,10 +32,10 @@ interface VenueProps {
   created: string;
   updated?: string;
   meta: {
-    wifi: true;
-    parking: true;
-    breakfast: true;
-    pets: true;
+    wifi: boolean;
+    parking: boolean;
+    breakfast: boolean;
+    pets: boolean;
   };
   location: { address: string; city: string; zip: string; country: string; lat: number; lng: number };
   owner: {
@@ -60,21 +61,15 @@ interface DateRangeProps {
   key: string;
 }
 
-const StyledVenuePage = styled.main`
-  padding: 16rem 0;
+interface CustomDateRange extends DateRangeProps {}
 
-  h1 {
-    text-align: start;
-  }
+const StyledVenuePage = styled(Page)`
+& .align-left {
+  justify-content: end;
 
-  & .align-left {
-    justify-content: end;
-
-    @media only screen and (max-width: 900px) {
-      text-align: end;
-    }
-  }
-`;
+  @media only screen and (max-width: 900px) {
+    text-align: end;
+  }`;
 
 const GridItem = styled.div`
   display: flex;
@@ -113,12 +108,6 @@ function Venue() {
     },
   ]);
 
-  const handleDateRangeChange = (newDateRange: DateRangeProps) => {
-    setSelectedDateRange([newDateRange]);
-
-    console.log("Selected Date Range:", newDateRange);
-  };
-
   const fetchData = async () => {
     const data = await getVenue(id);
     setLoading(false);
@@ -130,7 +119,11 @@ function Venue() {
       fetchData();
     }, 1000);
   }, []);
-  console.log(venue);
+
+  const handleDateRangeChange = (newDateRange: CustomDateRange) => {
+    setSelectedDateRange([newDateRange]);
+    console.log("Selected Date Range:", newDateRange);
+  };
 
   return (
     <StyledVenuePage>

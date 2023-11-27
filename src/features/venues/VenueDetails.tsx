@@ -8,6 +8,8 @@ import { BsDot } from "react-icons/bs";
 import { AiFillStar, AiOutlineWifi } from "react-icons/ai";
 import Button from "../../ui/Button";
 import placeholder from "../../assets/placeholder.jpg";
+import { NavLink } from "react-router-dom";
+import { useAuth } from "../../context/authContext";
 
 interface VenueProps {
   key: string;
@@ -21,10 +23,10 @@ interface VenueProps {
   created: string;
   updated?: string;
   meta: {
-    wifi: true;
-    parking: true;
-    breakfast: true;
-    pets: true;
+    wifi: boolean;
+    parking: boolean;
+    breakfast: boolean;
+    pets: boolean;
   };
   location: { address: string; city: string; zip: string; country: string; lat: number; lng: number };
   owner: {
@@ -92,6 +94,8 @@ const StyledDescription = styled.div`
 `;
 
 function Details({ venue }: VenueProp) {
+  const { isAuthenticated } = useAuth();
+
   return (
     <div>
       <StyledDetails>
@@ -108,10 +112,17 @@ function Details({ venue }: VenueProp) {
       <hr />
       <StyledHosteInfo>
         <img src={venue.owner.avatar ? venue.owner.avatar : placeholder} alt="avartar" />
-        <div>
-          <Heading as="h3">Hosted By {venue.owner.name}</Heading>
-          <p>Email: {venue.owner.email}</p>
-        </div>
+        {isAuthenticated ? (
+          <NavLink to={`/profiles/${venue.owner.name}`}>
+            <Heading as="h3">Hosted By {venue.owner.name}</Heading>
+            <p>Email: {venue.owner.email}</p>
+          </NavLink>
+        ) : (
+          <div>
+            <Heading as="h3">Hosted By {venue.owner.name}</Heading>
+            <p>Email: {venue.owner.email}</p>
+          </div>
+        )}
       </StyledHosteInfo>
       <hr />
       <StyledOffersContainer>
@@ -119,19 +130,19 @@ function Details({ venue }: VenueProp) {
         <GridColsTwo>
           <StyledOffers>
             <AiOutlineWifi />
-            {venue.meta.wifi ? "WIFI" : "NoWifi"}
+            {venue.meta.wifi === true ? "WIFI" : "NO Wifi"}
           </StyledOffers>
           <StyledOffers>
             <FaSquareParking />
-            {venue.meta.parking ? "Parking" : "NO Parking"}
+            {venue.meta.parking === true ? "Parking" : "NO Parking"}
           </StyledOffers>
           <StyledOffers>
             <MdFreeBreakfast />
-            {venue.meta.breakfast ? "Breakfast" : "NO Breakfast"}
+            {venue.meta.breakfast === true ? "Breakfast" : "NO Breakfast"}
           </StyledOffers>
           <StyledOffers>
             <MdPets />
-            {venue.meta.pets ? "Pets" : "NO Pets"}
+            {venue.meta.pets === true ? "Pets" : "NO Pets"}
           </StyledOffers>
         </GridColsTwo>
       </StyledOffersContainer>
