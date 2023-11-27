@@ -7,13 +7,16 @@ import Profile from "./pages/profile/Profile.tsx";
 import ErrorPage from "./pages/Error.tsx";
 import GlobalStyles from "./GlobalStyles.tsx";
 import Home from "./pages/Home.tsx";
-import Venue from "./pages/Venue.tsx";
+import Venue from "./pages/venues/Venue.tsx";
 import Login from "./pages/auth/Login.tsx";
 import Register from "./pages/auth/Register.tsx";
 import AppLayout from "./AppLayout.tsx";
 import VenuesByProfile from "./pages/profile/Venues.tsx";
 import BookingByProfile from "./pages/profile/Bookings.tsx";
 import { AuthProvider } from "./context/authContext.tsx";
+import CreateVenuePage from "./pages/venues/CreateVenue.tsx";
+import UpdateVenuePage from "./pages/venues/UpdateVenues.tsx";
+import ProfileUpdate from "./pages/profile/ProfileUpdate.tsx";
 
 const router = createBrowserRouter([
   {
@@ -25,6 +28,17 @@ const router = createBrowserRouter([
         path: "/",
         element: <Home />,
       },
+
+      {
+        path: "/venues/",
+        element: <CreateVenuePage />,
+      },
+
+      {
+        path: "/venues/update/",
+        element: <UpdateVenuePage />,
+      },
+
       {
         path: "/venues/:id",
         element: <Venue />,
@@ -42,6 +56,11 @@ const router = createBrowserRouter([
       {
         path: "/profiles/:name",
         element: <Profile />,
+      },
+
+      {
+        path: "/profiles/:name/media",
+        element: <ProfileUpdate />,
       },
 
       {
