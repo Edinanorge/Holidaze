@@ -3,7 +3,6 @@ import { useState } from "react";
 import { AiOutlineMenu } from "react-icons/ai";
 import styled from "styled-components";
 
-import Button from "../Button";
 import Avatar from "../Avatar";
 
 import { NavLink } from "react-router-dom";
@@ -13,14 +12,20 @@ const StyledUserMenu = styled.div`
   position: relative;
   display: flex;
   align-items: center;
+`;
+const StyledNavLink = styled(NavLink)`
+  margin-right: 1rem;
+  padding: 1rem 2rem;
+  border-radius: var(--border-radius-lg);
 
-  & button {
-    @media only screen and (max-width: 800px) {
-      display: none;
-    }
+  &:hover {
+    background-color: var(--color-gray-200);
+  }
+
+  @media only screen and (max-width: 800px) {
+    display: none;
   }
 `;
-
 const StyledMenu = styled.div`
   border-radius: var(--border-radius-lg);
   border: var(--border);
@@ -55,14 +60,11 @@ const MenuItem = styled(NavLink)`
 
 function UserMenu() {
   const [isOpen, setIsOpen] = useState(false);
-  const { isAuthenticated, isManager, logout } = useAuth();
-  console.log(isAuthenticated);
+  const { isAuthenticated, isManager, logout, userName } = useAuth();
 
   return (
     <StyledUserMenu>
-      <Button variation="default" onClick={() => {}}>
-        Holidaze your home
-      </Button>
+      <StyledNavLink to="/venues">Holidaze your home</StyledNavLink>
       <StyledMenu
         onClick={() => {
           setIsOpen(!isOpen);
@@ -75,17 +77,17 @@ function UserMenu() {
         <Menu>
           {isAuthenticated && isManager ? (
             <>
-              <MenuItem to="/profiles/:name">Profile</MenuItem>
-              <MenuItem to="/profiles/:name/bookings">Bookings</MenuItem>
-              <MenuItem to="/profiles/:name/venues">Venues</MenuItem>
+              <MenuItem to={`/profiles/${userName}`}>Profile</MenuItem>
+              <MenuItem to={`/profiles/${userName}/bookings`}>Bookings</MenuItem>
+              <MenuItem to={`/profiles/${userName}/venues`}>Venues</MenuItem>
               <MenuItem to="/" onClick={logout}>
                 Log Out
               </MenuItem>
             </>
           ) : isAuthenticated ? (
             <>
-              <MenuItem to="/profiles/:name">Profile</MenuItem>
-              <MenuItem to="/profiles/:name/bookings">Bookings</MenuItem>
+              <MenuItem to={`/profiles/${userName}`}>Profile</MenuItem>
+              <MenuItem to={`/profiles/${userName}/bookings`}>Bookings</MenuItem>
               <MenuItem to="/" onClick={logout}>
                 Log Out
               </MenuItem>
@@ -97,7 +99,7 @@ function UserMenu() {
             </>
           )}
           <hr />
-          <MenuItem to="#">Holidaze your home</MenuItem>
+          <MenuItem to="/venues">Holidaze your home</MenuItem>
           <MenuItem to="#">Help Center</MenuItem>
         </Menu>
       )}

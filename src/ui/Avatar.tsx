@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import avatar from "../assets/placeholder.jpg";
+import { useAuth } from "../context/authContext";
 
 const StyledAvatar = styled.img`
   width: 3rem;
@@ -12,7 +13,8 @@ const StyledAvatar = styled.img`
 `;
 
 function Avatar() {
-  return <StyledAvatar src={avatar} alt="Avatar" />;
+  const { userAvatar } = useAuth();
+  return <StyledAvatar src={userAvatar ? userAvatar : avatar} alt="Avatar" />;
 }
 
 export default Avatar;
