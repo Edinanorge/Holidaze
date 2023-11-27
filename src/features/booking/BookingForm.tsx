@@ -1,10 +1,17 @@
-import styled from "styled-components";
+import { useState } from "react";
+import { format, differenceInDays } from "date-fns";
+import { useAuth } from "../../context/authContext";
+import { useForm } from "react-hook-form";
+import { createBooking } from "../../services/apiBookings";
+import { formatCurrency } from "../../utils/formatCurrency";
+import toast from "react-hot-toast";
 
+import styled from "styled-components";
+import FlexContainer from "../../ui/FlexContainer";
+import Input from "../../ui/Input";
 import Button from "../../ui/Button";
 import Heading from "../../ui/Heading";
-import TextCenter from "../../ui/TextCenter";
-import { format, differenceInDays } from "date-fns";
-import { formatCurrency } from "../../utils/formatCurrency";
+import { useNavigate } from "react-router-dom";
 
 interface VenueProps {
   key: string;
@@ -18,10 +25,10 @@ interface VenueProps {
   created: string;
   updated?: string;
   meta: {
-    wifi: true;
-    parking: true;
-    breakfast: true;
-    pets: true;
+    wifi: boolean;
+    parking: boolean;
+    breakfast: boolean;
+    pets: boolean;
   };
   location: { address: string; city: string; zip: string; country: string; lat: number; lng: number };
   owner: {
@@ -52,6 +59,13 @@ interface VenueProp {
   selectedDateRange: DateRangeProps[];
 }
 
+interface FormDataProps {
+  dateFrom: string;
+  dateTo: string;
+  guests: number;
+  venueId: string;
+}
+
 const StyledBookingForm = styled.form`
   display: flex;
   flex-direction: column;
@@ -61,6 +75,14 @@ const StyledBookingForm = styled.form`
   margin: 3rem 0 3rem auto;
   box-shadow: var(--shadow-lg);
 
+  p {
+    text-align: center;
+  }
+
+  & FlexContainer {
+    justify-content: space-between;
+  }
+
   @media only screen and (max-width: 1100px) {
     width: 100%;
     margin: 3rem auto;
@@ -68,31 +90,105 @@ const StyledBookingForm = styled.form`
 `;
 
 function BookingForm({ venue, selectedDateRange }: VenueProp) {
+  const navigate = useNavigate();
+  const { authToken, userName } = useAuth();
+  const form = useForm({
+    defaultValues: {
+      dateFrom: format(selectedDateRange[0].startDate, "MM/dd/yyyy"),
+      dateTo: format(selectedDateRange[0].endDate, "MM/dd/yyyy"),
+      guests: 1,
+      venueId: venue.id,
+    },
+  });
+  const { register, handleSubmit, formState } = form;
+  const { errors } = formState;
+  const [serverErrors, setServerErrors] = useState("");
+
+  const onSubmit = async (formData: FormDataProps) => {
+    if (authToken) {
+      //send data to API
+      const data = await createBooking(formData, authToken);
+
+      //handling setver errors
+      if (data.errors) {
+        setServerErrors(data.errors[0].message);
+        toast.error(serverErrors);
+        console.log(data.errors[0].message);
+      } else {
+        toast.success("Congratulation. You just booked your dream vacation!.");
+        navigate(`/profiles/${userName}`);
+      }
+    } else {
+      toast.error("You must be logged in to book a venue.");
+    }
+  };
+
   return (
-    <StyledBookingForm>
+    <StyledBookingForm onSubmit={handleSubmit(onSubmit)} noValidate>
       <Heading as="h2">{formatCurrency(venue.price)} / night</Heading>
 
-      <label htmlFor="checkin">Check in</label>
+      <Input
+        label="Check In"
+        id="dateFrom"
+        type="date"
+        register={register}
+        error={errors.dateFrom?.message}
+        required={{ value: true, message: "Checkin date is required" }}
+      />
 
-      <input type="text" placeholder={`${format(new Date(selectedDateRange[0].startDate), "MM.dd.yyyy")}`} disabled />
+      <Input
+        label="Check Out"
+        id="dateTo"
+        type="date"
+        register={register}
+        error={errors.dateTo?.message}
+        required={{ value: true, message: "Checkout date is required" }}
+      />
 
-      <label>Check out </label>
-      <input type="text" placeholder={`${format(new Date(selectedDateRange[0].endDate), "MM.dd.yyyy")}`} disabled />
+      <Input
+        label="Number of guests"
+        id="guests"
+        type="number"
+        register={register}
+        error={errors.guests?.message}
+        required={{ value: true, message: "Number of guests is required" }}
+      />
 
-      <label>Guests </label>
-      <input type="number" max={venue.maxGuests} min="1" placeholder="1" />
+      <Button variation="secondary" type="submit">
+        Reserve
+      </Button>
 
-      <Button variation="secondary">Reserve</Button>
-      <TextCenter>
-        <p>You won't be charged yet</p>
-      </TextCenter>
+      <p>You won't be charged yet</p>
+
       <hr />
-      <Heading as="h2">
-        Total{" "}
-        {formatCurrency(differenceInDays(selectedDateRange[0].endDate, selectedDateRange[0].startDate) * venue.price)} /
-        night
-      </Heading>
-      <p>price</p>
+      <FlexContainer>
+        <p>
+          {+differenceInDays(selectedDateRange[0].endDate, selectedDateRange[0].startDate)} night X{" "}
+          {formatCurrency(venue.price)}{" "}
+        </p>
+        <p>
+          {formatCurrency(
+            +differenceInDays(selectedDateRange[0].endDate, selectedDateRange[0].startDate) * venue.price
+          )}
+        </p>
+      </FlexContainer>
+      <FlexContainer>
+        <p>Cleaning </p>
+        <p>NOK 100.00 </p>
+      </FlexContainer>
+      <FlexContainer>
+        <p>Rental fees </p>
+        <p>NOK 50.00 </p>
+      </FlexContainer>
+      <FlexContainer>
+        <Heading as="h2">Total price</Heading>
+        <p>
+          {" "}
+          {formatCurrency(
+            +differenceInDays(selectedDateRange[0].endDate, selectedDateRange[0].startDate) * venue.price + 100 + 50
+          )}
+        </p>
+      </FlexContainer>
     </StyledBookingForm>
   );
 }
