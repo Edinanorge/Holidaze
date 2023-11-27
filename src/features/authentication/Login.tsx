@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 
 import Modal, { ModalFooter } from "../../ui/Modal";
@@ -30,8 +30,8 @@ function LoginForm() {
       password: "",
     },
   });
-  const { register, handleSubmit, formState, reset } = form;
-  const { errors, isSubmitSuccessful } = formState;
+  const { register, handleSubmit, formState } = form;
+  const { errors } = formState;
   const [serverErrors, setServerErrors] = useState("");
 
   async function onSubmit(formData: FormDataLoginProps) {
@@ -51,11 +51,6 @@ function LoginForm() {
       }, 1000);
     }
   }
-
-  useEffect(() => {
-    reset();
-    setServerErrors("");
-  }, [isSubmitSuccessful, reset]);
 
   return (
     <Modal>
