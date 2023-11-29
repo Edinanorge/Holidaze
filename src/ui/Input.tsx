@@ -5,7 +5,7 @@ interface InputProps {
   id: string;
   type: string;
   register: any;
-  error?: string | undefined;
+  error?: string | undefined | any;
   pattern?: {
     value: any;
     message: string;
@@ -18,11 +18,25 @@ interface InputProps {
     value: number;
     message: string;
   };
+  placeholder?: string;
+  min?: number;
+  max?: number;
 }
 
 export const StyledInput = styled.div`
   display: flex;
   flex-direction: column;
+  input {
+    border: var(--border);
+    padding: 1rem 0.5rem;
+  }
+`;
+
+export const StyledDateInput = styled.div`
+  p {
+    border: var(--border);
+    padding: 1rem 0.5rem;
+  }
 `;
 
 const StyledError = styled.p`
@@ -30,11 +44,14 @@ const StyledError = styled.p`
   color: var(--color-red-100);
 `;
 
-function Input({ label, id, type, register, error, pattern, required, minLength }: InputProps) {
+function Input({ label, id, type, register, error, pattern, required, minLength, placeholder, min, max }: InputProps) {
   return (
     <StyledInput>
       <label htmlFor={id}>{label}</label>
       <input
+        min={min}
+        max={max}
+        placeholder={placeholder}
         type={type}
         id={id}
         {...register(id, {

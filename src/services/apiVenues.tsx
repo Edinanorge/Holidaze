@@ -19,6 +19,15 @@ interface FormDataProps {
   lat: number;
   lng: number;
 }
+export async function getAllVenues() {
+  const res = await fetch(`${API_URL}/venues?_bookings=true`);
+
+  if (!res.ok) throw Error("Failed getting venues.");
+
+  const data = await res.json();
+
+  return data;
+}
 
 export async function getVenues(limit: number, offset: number) {
   const res = await fetch(`${API_URL}/venues?limit=${limit}&offset=${offset}`);

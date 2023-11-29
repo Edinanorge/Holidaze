@@ -10,7 +10,7 @@ const StyledFooter = styled.footer`
   bottom: 0;
   left: 0;
   right: 0;
-
+  z-index: 999;
   border-top: var(--border);
   background-color: var(--color-gray-0);
   padding: 0 4rem;

@@ -53,7 +53,7 @@ function BookingItem({ booking }: BookingItemProps) {
         <p>{location.country}</p>
 
         <p>
-          From {formatDate(booking.dateFrom)} To {formatDate(booking.dateTo)}
+          From <i>{formatDate(booking.dateFrom)}</i> To <i>{formatDate(booking.dateTo)}</i>
         </p>
       </NavLink>
     </StyledHorizontalListItem>

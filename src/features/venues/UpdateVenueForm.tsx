@@ -99,7 +99,14 @@ function UpdateVenueForm() {
           required={{ value: true, message: "Venue description is required" }}
         />
 
-        <Input label="Image(url)" id="media" type="media" register={register} error={errors.media?.message} />
+        <Input
+          label="Image(url)"
+          id="media"
+          type="text"
+          register={register}
+          error={errors.media?.message}
+          required={{ value: true, message: "Media is required." }}
+        />
         <GridColsTwo>
           <Input
             label="Price*"

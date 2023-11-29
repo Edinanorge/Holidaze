@@ -40,8 +40,8 @@ export function CreteVenueForm() {
       name: "",
       description: "",
       media: [],
-      price: 0,
-      maxGuests: 1,
+      price: undefined,
+      maxGuests: undefined,
       rating: 0,
       wifi: true,
       parking: true,
@@ -95,7 +95,14 @@ export function CreteVenueForm() {
           required={{ value: true, message: "Venue description is required" }}
         />
 
-        <Input label="Image(url)" id="media" type="media" register={register} error={errors.media?.message} />
+        <Input
+          label="Image(url)"
+          id="media"
+          type="text"
+          register={register}
+          error={errors.media?.message}
+          required={{ value: true, message: "Media is required." }}
+        />
         <GridColsTwo>
           <Input
             label="Price*"
@@ -109,6 +116,7 @@ export function CreteVenueForm() {
             label="Maximum guests*"
             id="maxGuests"
             type="number"
+            min={1}
             register={register}
             error={errors.maxGuests?.message}
             required={{ value: true, message: "Number of maximus guests required" }}

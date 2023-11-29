@@ -4,7 +4,7 @@ import Heading from "./Heading";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 
 interface LocationProps {
-  position: [];
+  position: [number, number];
   name: string;
 }
 

@@ -7,8 +7,7 @@ import Button from "../Button";
 
 import { useState } from "react";
 import { DateRange } from "react-date-range";
-import { format } from "date-fns";
-import { useSearch } from "../../context/searchContext";
+import { useNavigate } from "react-router-dom";
 
 const StyledSearch = styled.div`
   background-color: var(--color-gray-0);
@@ -58,6 +57,7 @@ const StyledSearchButton = styled(Button)`
   justify-content: center;
   padding: 1rem;
   border-radius: 100%;
+  margin-top: 0;
 
   &:hover {
     background-color: var(--color-gray-0);
@@ -114,22 +114,28 @@ const StyledGuestDropdown = styled.div`
   z-index: 1;
 `;
 
+interface GuestProps {
+  adult: number;
+  children: number;
+  room: number;
+  [key: string]: number;
+}
+
 function Search() {
-  const { setSearchValue } = useSearch();
+  const navigate = useNavigate();
+
   const [destination, setDestination] = useState("");
   const [openDate, setOpenDate] = useState(false);
-  const [date, setDate] = useState([
-    {
-      startDate: new Date(),
-      endDate: new Date(),
-      key: "selection",
-    },
-  ]);
+  const [dateRange, setDateRange] = useState({
+    startDate: new Date(),
+    endDate: new Date(),
+    key: "selection",
+  });
   const [openGuests, setOpenGuests] = useState(false);
-  const [guest, setGuest] = useState({ adult: 1, children: 0, room: 1 });
+  const [guests, setGuests] = useState<GuestProps>({ adult: 1, children: 0, room: 1 });
 
   function handleChange(name: string, operation: string) {
-    setGuest((prev) => {
+    setGuests((prev) => {
       const updatedValue = operation === "decrease" ? prev[name] - 1 : prev[name] + 1;
       return {
         ...prev,
@@ -139,15 +145,12 @@ function Search() {
   }
 
   function handleSubmit() {
-    const searchParameters = {
-      destination,
-      date: { startDate: format(date[0].startDate, "dd.MM.yyyy"), endDate: format(date[0].endDate, "dd.MM.yyyy") },
-      guests: guest,
-    };
-
-    console.log("Search Data:", searchParameters);
-    setSearchValue(searchParameters);
+    navigate("/venues", { state: { destination, dateRange, guests } });
   }
+
+  const handleSelect = (ranges: any) => {
+    setDateRange(ranges.selection);
+  };
 
   return (
     <StyledSearch>
@@ -157,11 +160,10 @@ function Search() {
       {openDate && (
         <StyledDateRangePicker
           editableDateInputs={true}
-          onChange={(item) => {
-            setDate([item.selection]);
-          }}
+          onChange={handleSelect}
           moveRangeOnFirstSelection={false}
-          ranges={date}
+          ranges={[dateRange]}
+          minDate={new Date()}
         />
       )}
 
@@ -171,24 +173,30 @@ function Search() {
           <StyledGuestSelect>
             <StyledGuestLabel>Adult</StyledGuestLabel>
             <div>
-              <StyledGuestButton onClick={() => handleChange("adult", "decrease")}>-</StyledGuestButton>
-              <StyledGuestValue>{guest.adult}</StyledGuestValue>
+              <StyledGuestButton disabled={guests.adult <= 1} onClick={() => handleChange("adult", "decrease")}>
+                -
+              </StyledGuestButton>
+              <StyledGuestValue>{guests.adult}</StyledGuestValue>
               <StyledGuestButton onClick={() => handleChange("adult", "increase")}>+</StyledGuestButton>
             </div>
           </StyledGuestSelect>
           <StyledGuestSelect>
             <StyledGuestLabel>Children</StyledGuestLabel>
             <div>
-              <StyledGuestButton onClick={() => handleChange("children", "decrease")}>-</StyledGuestButton>
-              <StyledGuestValue>{guest.children}</StyledGuestValue>
+              <StyledGuestButton disabled={guests.children <= 0} onClick={() => handleChange("children", "decrease")}>
+                -
+              </StyledGuestButton>
+              <StyledGuestValue>{guests.children}</StyledGuestValue>
               <StyledGuestButton onClick={() => handleChange("children", "increase")}>+</StyledGuestButton>
             </div>
           </StyledGuestSelect>
           <StyledGuestSelect>
             <StyledGuestLabel>Room</StyledGuestLabel>
             <div>
-              <StyledGuestButton onClick={() => handleChange("room", "decrease")}>-</StyledGuestButton>
-              <StyledGuestValue>{guest.room}</StyledGuestValue>
+              <StyledGuestButton disabled={guests.room <= 1} onClick={() => handleChange("room", "decrease")}>
+                -
+              </StyledGuestButton>
+              <StyledGuestValue>{guests.room}</StyledGuestValue>
               <StyledGuestButton onClick={() => handleChange("room", "increase")}>+</StyledGuestButton>
             </div>
           </StyledGuestSelect>

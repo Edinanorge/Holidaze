@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { AiOutlineMenu } from "react-icons/ai";
 import styled from "styled-components";
@@ -61,10 +61,22 @@ const MenuItem = styled(NavLink)`
 function UserMenu() {
   const [isOpen, setIsOpen] = useState(false);
   const { isAuthenticated, isManager, logout, userName } = useAuth();
+  let menuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, []);
 
   return (
-    <StyledUserMenu>
-      <StyledNavLink to="/venues">Holidaze your home</StyledNavLink>
+    <StyledUserMenu ref={menuRef}>
+      <StyledNavLink to="/venues/create">Holidaze your home</StyledNavLink>
       <StyledMenu
         onClick={() => {
           setIsOpen(!isOpen);
@@ -99,7 +111,7 @@ function UserMenu() {
             </>
           )}
           <hr />
-          <MenuItem to="/venues">Holidaze your home</MenuItem>
+          <MenuItem to="/venues/create">Holidaze your home</MenuItem>
           <MenuItem to="#">Help Center</MenuItem>
         </Menu>
       )}

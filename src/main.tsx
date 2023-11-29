@@ -17,6 +17,7 @@ import { AuthProvider } from "./context/authContext.tsx";
 import CreateVenuePage from "./pages/venues/CreateVenue.tsx";
 import UpdateVenuePage from "./pages/venues/UpdateVenues.tsx";
 import ProfileUpdate from "./pages/profile/ProfileUpdate.tsx";
+import Venues from "./features/venues/Venues.tsx";
 
 const router = createBrowserRouter([
   {
@@ -31,6 +32,11 @@ const router = createBrowserRouter([
 
       {
         path: "/venues/",
+        element: <Venues />,
+      },
+
+      {
+        path: "/venues/create",
         element: <CreateVenuePage />,
       },
 

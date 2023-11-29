@@ -8,7 +8,6 @@ import SkeletonBookingPage from "../../ui/Skeleton/SkeletonBookingsPage";
 import Container from "../../ui/Container";
 import BookingItem from "../../features/booking/BookingItem";
 import Page from "../../ui/Page";
-import { GridCols } from "../../ui/Grid";
 import { ListHorizonlat } from "../../ui/List";
 
 interface BookingProps {

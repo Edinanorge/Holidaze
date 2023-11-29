@@ -155,18 +155,19 @@ function Venue() {
             </GridColsTwo>
             <Gallery venue={venue} />
             <StyledGridColsTwo>
-              <Details venue={venue} />
+              <div>
+                <Details venue={venue} />
+                <StyledDates>
+                  <Heading as="h3">Awailable Dates</Heading>
+                  <BookingDateRangePicker
+                    bookings={venue.bookings}
+                    selectedDateRange={selectedDateRange}
+                    onDateRangeChange={handleDateRangeChange}
+                  />
+                </StyledDates>
+              </div>
               <BookingForm venue={venue} selectedDateRange={selectedDateRange} />
             </StyledGridColsTwo>
-            <hr />
-            <StyledDates>
-              <Heading as="h3">Awailable Dates</Heading>
-              <BookingDateRangePicker
-                bookings={venue.bookings}
-                selectedDateRange={selectedDateRange}
-                onDateRangeChange={handleDateRangeChange}
-              />
-            </StyledDates>
 
             <hr />
             <Location position={[venue.location.lat, venue.location.lng]} name={venue.name} />

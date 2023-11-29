@@ -23,8 +23,8 @@ const GlobalStyles = createGlobalStyle`
   --color-red-200:#B32505;
 
   --color-blue:#428BFF;
-  --color-oragne:#E07912;
-  --color-gren:#008A05;
+  --color-orange:#E07912;
+  --color-green:#008A05;
 
   --gradiant-right-1:linear-gradient(to right,#E61E4D 0%,#E31C5F 50%,#D70466 100%);
   --gradiant-left-1:linear-gradient(to left,#E61E4D 0%,#E31C5F 50%,#D70466 100%);
@@ -63,7 +63,7 @@ html {
   font-size: 62.5%;
 }
 
- body {
+body {
   font-family: var(--font-family);
   font-size: 1.4rem;
   color: var(--color-gray-800);
@@ -74,26 +74,27 @@ html {
   min-height: 100vh;
   line-height: 1.5;
 
- }
-
- img {
-  max-width: 100%;
- }
-
-input{
-padding:1rem 1.5rem;
 }
 
- input,
- button,
- textarea,
- select {
+img {
+  max-width: 100%;
+}
+
+input {
+  border: var(--border);
+  padding: 1rem 0.5rem;
+}
+
+input,
+button,
+textarea,
+select {
    font: inherit;
    color: inherit;
- }
+}
 
 
- button {
+button {
   cursor: pointer;
 }
 
@@ -104,9 +105,6 @@ a {
   &:hover{
     text-decoration: none;
   }
-}
-div:has(input[type="checkbox]){
-  color:red;
 }
 
 ul {
@@ -124,7 +122,6 @@ h6 {
   overflow-wrap: break-word;
   hyphens: auto;
 }
-
 `;
 
 export default GlobalStyles;

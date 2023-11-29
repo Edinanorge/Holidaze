@@ -28,7 +28,7 @@ const StyledSkeletonVenuePage = styled.main`
 function SkeletonVenuesPage() {
   return (
     <StyledSkeletonVenuePage>
-      {[1, 2, 3].map((_, index) => (
+      {[1, 2, 3, 4, 5].map((_, index) => (
         <GridColsTwo key={index}>
           <GridColsTwo>
             <SkeletonImageSmall />

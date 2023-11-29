@@ -2,8 +2,9 @@ import styled from "styled-components";
 
 import { AiOutlineHome } from "react-icons/ai";
 import Heading from "../Heading";
+import { NavLink } from "react-router-dom";
 
-const StyledLogo = styled.a`
+const StyledLogo = styled(NavLink)`
   color: var(--color-brand-50);
   font-weight: 800;
   display: flex;
@@ -30,7 +31,7 @@ const StyledLogo = styled.a`
 
 function Logo() {
   return (
-    <StyledLogo href="/">
+    <StyledLogo to="/">
       <AiOutlineHome />
       <Heading as="h1">holidaze</Heading>
     </StyledLogo>

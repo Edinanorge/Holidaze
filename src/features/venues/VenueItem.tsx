@@ -43,7 +43,7 @@ interface VenueItemProps {
 function VenueItem({ venue, onDelete, onUpdate }: VenueItemProps) {
   return (
     <StyledListItem>
-      <StyledImage fullSize={true} src={venue.media[0]} alt="Venue Image" />
+      <StyledImage fullsize={true} src={venue.media[0]} alt="Venue Image" />
       <NavLink to={`/venues/${venue.id}`}>
         <Heading as="h2">{venue.name}</Heading>
         <p>Price: {formatCurrency(venue.price)}</p>

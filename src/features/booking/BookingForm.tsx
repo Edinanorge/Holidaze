@@ -8,10 +8,13 @@ import toast from "react-hot-toast";
 
 import styled from "styled-components";
 import FlexContainer from "../../ui/FlexContainer";
-import Input from "../../ui/Input";
+import Input, { StyledDateInput } from "../../ui/Input";
 import Button from "../../ui/Button";
 import Heading from "../../ui/Heading";
 import { useNavigate } from "react-router-dom";
+import { GridColsTwo } from "../../ui/Grid";
+import { DateRange } from "react-date-range";
+import { StyledErrosMessage } from "../authentication/Register";
 
 interface VenueProps {
   key: string;
@@ -59,13 +62,6 @@ interface VenueProp {
   selectedDateRange: DateRangeProps[];
 }
 
-interface FormDataProps {
-  dateFrom: string;
-  dateTo: string;
-  guests: number;
-  venueId: string;
-}
-
 const StyledBookingForm = styled.form`
   display: flex;
   flex-direction: column;
@@ -74,6 +70,8 @@ const StyledBookingForm = styled.form`
   padding: 4rem;
   margin: 3rem 0 3rem auto;
   box-shadow: var(--shadow-lg);
+  position: sticky;
+  top: 20rem;
 
   p {
     text-align: center;
@@ -92,19 +90,27 @@ const StyledBookingForm = styled.form`
 function BookingForm({ venue, selectedDateRange }: VenueProp) {
   const navigate = useNavigate();
   const { authToken, userName } = useAuth();
+  const [dateRange, setDateRange] = useState({
+    startDate: selectedDateRange[0].startDate,
+    endDate: selectedDateRange[0].endDate,
+    key: "selection",
+  });
   const form = useForm({
     defaultValues: {
-      dateFrom: format(selectedDateRange[0].startDate, "MM/dd/yyyy"),
-      dateTo: format(selectedDateRange[0].endDate, "MM/dd/yyyy"),
-      guests: 1,
+      dateFrom: dateRange.startDate,
+      dateTo: dateRange.endDate,
+      guests: 0,
       venueId: venue.id,
     },
   });
-  const { register, handleSubmit, formState } = form;
+
+  const [isOpen, setIsOpen] = useState(false);
+  const { register, handleSubmit, formState, setValue } = form;
   const { errors } = formState;
   const [serverErrors, setServerErrors] = useState("");
 
-  const onSubmit = async (formData: FormDataProps) => {
+  const onSubmit = async (formData: any) => {
+    console.log(formData);
     if (authToken) {
       //send data to API
       const data = await createBooking(formData, authToken);
@@ -116,34 +122,56 @@ function BookingForm({ venue, selectedDateRange }: VenueProp) {
         console.log(data.errors[0].message);
       } else {
         toast.success("Congratulation. You just booked your dream vacation!.");
-        navigate(`/profiles/${userName}`);
+        navigate(`/profiles/${userName}/bookings`);
       }
     } else {
       toast.error("You must be logged in to book a venue.");
     }
+  };
+  const bookedDateRanges = venue.bookings.map((booking) => ({
+    startDate: new Date(booking.dateFrom),
+    endDate: new Date(booking.dateTo),
+    key: booking.id,
+  }));
+
+  const disabledDates = (date: Date) => {
+    return bookedDateRanges.some(
+      (bookedDateRange) =>
+        (date >= bookedDateRange.startDate && date <= bookedDateRange.endDate) ||
+        date === bookedDateRange.startDate ||
+        date === bookedDateRange.endDate
+    );
+  };
+  const handleSelect = (ranges: any) => {
+    setDateRange(ranges.selection);
+    setValue("dateFrom", ranges.selection.startDate);
+    setValue("dateTo", ranges.selection.endDate);
   };
 
   return (
     <StyledBookingForm onSubmit={handleSubmit(onSubmit)} noValidate>
       <Heading as="h2">{formatCurrency(venue.price)} / night</Heading>
 
-      <Input
-        label="Check In"
-        id="dateFrom"
-        type="date"
-        register={register}
-        error={errors.dateFrom?.message}
-        required={{ value: true, message: "Checkin date is required" }}
-      />
-
-      <Input
-        label="Check Out"
-        id="dateTo"
-        type="date"
-        register={register}
-        error={errors.dateTo?.message}
-        required={{ value: true, message: "Checkout date is required" }}
-      />
+      <GridColsTwo>
+        <StyledDateInput onClick={() => setIsOpen(!isOpen)}>
+          <label>Check-in</label>
+          <p>{format(dateRange.startDate, "dd. MM. yyyy")} </p>
+        </StyledDateInput>
+        <StyledDateInput>
+          <label>Check-out</label>
+          <p>{format(dateRange.endDate, "dd. MM. yyyy")}</p>
+        </StyledDateInput>
+      </GridColsTwo>
+      {isOpen && (
+        <DateRange
+          disabledDay={disabledDates}
+          editableDateInputs={true}
+          onChange={handleSelect}
+          ranges={[dateRange]}
+          moveRangeOnFirstSelection={false}
+          minDate={new Date()}
+        />
+      )}
 
       <Input
         label="Number of guests"
@@ -153,7 +181,7 @@ function BookingForm({ venue, selectedDateRange }: VenueProp) {
         error={errors.guests?.message}
         required={{ value: true, message: "Number of guests is required" }}
       />
-
+      {serverErrors && <StyledErrosMessage>{serverErrors}</StyledErrosMessage>}
       <Button variation="secondary" type="submit">
         Reserve
       </Button>
@@ -163,14 +191,9 @@ function BookingForm({ venue, selectedDateRange }: VenueProp) {
       <hr />
       <FlexContainer>
         <p>
-          {+differenceInDays(selectedDateRange[0].endDate, selectedDateRange[0].startDate)} night X{" "}
-          {formatCurrency(venue.price)}{" "}
+          {+differenceInDays(dateRange.endDate, dateRange.startDate)} night X {formatCurrency(venue.price)}{" "}
         </p>
-        <p>
-          {formatCurrency(
-            +differenceInDays(selectedDateRange[0].endDate, selectedDateRange[0].startDate) * venue.price
-          )}
-        </p>
+        <p>{formatCurrency(+differenceInDays(dateRange.endDate, dateRange.startDate) * venue.price)}</p>
       </FlexContainer>
       <FlexContainer>
         <p>Cleaning </p>
@@ -182,12 +205,7 @@ function BookingForm({ venue, selectedDateRange }: VenueProp) {
       </FlexContainer>
       <FlexContainer>
         <Heading as="h2">Total price</Heading>
-        <p>
-          {" "}
-          {formatCurrency(
-            +differenceInDays(selectedDateRange[0].endDate, selectedDateRange[0].startDate) * venue.price + 100 + 50
-          )}
-        </p>
+        <p> {formatCurrency(+differenceInDays(dateRange.endDate, dateRange.startDate) * venue.price + 100 + 50)}</p>
       </FlexContainer>
     </StyledBookingForm>
   );

@@ -59,6 +59,7 @@ export const AuthProvider = ({ children }: AuthContextProps) => {
     setIsManager(data.venueManager);
     localStorage.setItem("isManager", JSON.stringify(data.venueManager));
   };
+
   const isAuthenticated: boolean = !!authToken;
 
   return (

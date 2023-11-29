@@ -84,6 +84,10 @@ const StyledAboutInfo = styled.p`
   max-width: 60rem;
 `;
 
+const StyledExtra = styled.div`
+  padding: 3rem;
+`;
+
 function Profile() {
   const [profile, setProfile] = useState<ProfileProps>();
   const [loading, setLoading] = useState(true);
@@ -142,7 +146,7 @@ function Profile() {
                   </Button>
                 )}
               </StyledProfile>
-              <div>
+              <StyledExtra>
                 <Heading as="h1">Hey, I'm {profile.name.toUpperCase()}! </Heading>
                 <StyledAboutInfo>
                   Lorem ipsum dolor sit amet consectetur, adipisicing elit. A consectetur dolorem odit voluptate
@@ -158,7 +162,7 @@ function Profile() {
                     <span>{profile._count?.venues}</span>
                   </div>
                 )}
-              </div>
+              </StyledExtra>
             </StyledGridColsTwo>
             <StyledGridColsTwo>
               <StyledInfo>
@@ -175,7 +179,7 @@ function Profile() {
                   </li>
                 </StyledList>
               </StyledInfo>
-              <div>
+              <StyledExtra>
                 <Heading as="h2">What Hosets are saying about you:</Heading>
                 <ol>
                   <StyledListElements>
@@ -193,7 +197,7 @@ function Profile() {
                     <i>- Lorem, ipsum.</i>
                   </StyledListElements>
                 </ol>
-              </div>
+              </StyledExtra>
             </StyledGridColsTwo>
           </>
         )}

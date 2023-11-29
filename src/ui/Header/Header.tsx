@@ -5,7 +5,6 @@ import Logo from "./Logo";
 import Search from "./Search";
 import UserMenu from "./UserMenu";
 
-
 const StyledHeader = styled.header`
   position: fixed;
   width: 100%;
@@ -28,17 +27,15 @@ const StyledNav = styled.nav`
 
 function Header() {
   return (
-   
-      <StyledHeader>
-        <Container>
-          <StyledNav>
-            <Logo />
-            <Search />
-            <UserMenu />
-          </StyledNav>
-        </Container>
-      </StyledHeader>
-  
+    <StyledHeader>
+      <Container>
+        <StyledNav>
+          <Logo />
+          <Search />
+          <UserMenu />
+        </StyledNav>
+      </Container>
+    </StyledHeader>
   );
 }
 export default Header;

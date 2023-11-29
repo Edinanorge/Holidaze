@@ -1,4 +1,4 @@
-import { DateRangePicker } from "react-date-range";
+import { DateRange } from "react-date-range";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 
@@ -23,8 +23,6 @@ interface BookingProps {
   onDateRangeChange: (newDateRange: DateRangeProps) => void;
 }
 
-interface CustomDateRange extends DateRangeProps {}
-
 function BookingDateRangePicker({ bookings, selectedDateRange, onDateRangeChange }: BookingProps) {
   const bookedDateRanges = bookings.map((booking) => ({
     startDate: new Date(booking.dateFrom),
@@ -41,19 +39,17 @@ function BookingDateRangePicker({ bookings, selectedDateRange, onDateRangeChange
     );
   };
 
-  const handleRangeChange = (range: { selection: CustomDateRange }) => {
+  const handleRangeChange = (range: any) => {
     const selectedDateRange = range.selection;
     onDateRangeChange(selectedDateRange);
   };
 
   return (
     <div>
-      <DateRangePicker
-        direction="horizontal"
+      <DateRange
         editableDateInputs={true}
         moveRangeOnFirstSelection={false}
         onChange={handleRangeChange}
-        months={2}
         disabledDay={disabledDates}
         ranges={selectedDateRange}
         preventSnapRefocus={false}
