@@ -11,6 +11,7 @@ import Button from "../../ui/Button";
 import { updateVenue } from "../../services/apiVenues";
 import { StyledErrosMessage } from "../authentication/Register";
 import FlexContainer from "../../ui/FlexContainer";
+import { Row } from "../../ui/Row";
 
 interface FormDataProps {
   name: string;
@@ -108,7 +109,7 @@ function UpdateVenueForm() {
           error={errors.media?.message}
           required={{ value: true, message: "Media is required." }}
         />
-        <GridColsTwo>
+        <Row>
           <Input
             label="Price*"
             id="price"
@@ -125,12 +126,12 @@ function UpdateVenueForm() {
             error={errors.maxGuests?.message}
             required={{ value: true, message: "Number of maximus guests required" }}
           />
-        </GridColsTwo>
+        </Row>
         <Input label="Rating" id="rating" type="number" register={register} error={errors.rating?.message} />
 
         <Heading as="h2">Services: </Heading>
 
-        <FlexContainer>
+        <div>
           <Input label="Wifi" id="wifi" type="checkbox" register={register} error={errors.wifi?.message} />
           <Input label="Parking" id="parking" type="checkbox" register={register} error={errors.parking?.message} />
 
@@ -142,7 +143,7 @@ function UpdateVenueForm() {
             error={errors.breakfast?.message}
           />
           <Input label="Pets" id="pets" type="checkbox" register={register} error={errors.pets?.message} />
-        </FlexContainer>
+        </div>
 
         <Heading as="h2">Location: </Heading>
         <Input label="Address" id="address" type="text" register={register} error={errors.address?.message} />

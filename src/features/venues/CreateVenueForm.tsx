@@ -8,11 +8,8 @@ import Heading from "../../ui/Heading";
 import Input from "../../ui/Input";
 import { StyledErrosMessage } from "../authentication/Register";
 import Button from "../../ui/Button";
-import { GridAuto, GridCols, GridColsTwo } from "../../ui/Grid";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/authContext";
-import FlexContainer, { StyledFlexContainer } from "../../ui/FlexContainer";
-import { ListHorizonlat, ListVertical } from "../../ui/List";
 import { Row } from "../../ui/Row";
 
 interface FormDataProps {
