@@ -27,34 +27,29 @@ const StyledModal = styled.main`
 const ModalContent = styled.div`
   position: relative;
   padding: 2rem;
-  margin:6rem 0;
+  margin: 6rem 0;
   width: 60rem;
-  height:fit-content;
+  height: fit-content;
   background-color: var(--color-gray-0);
   border-radius: var(--border-radius);
 
   & h1 {
-  text-align:center;
-  margin-bottom:3rem;
+    text-align: center;
+    margin-bottom: 3rem;
   }
-  
+
   animation: animate 0.35s ease-out;
-  
+
   @keyframes animate {
     0% {
       transform: translateY(100%);
-      opacity:0;
+      opacity: 0;
     }
     100% {
       transform: translateY(0);
-      opacity:1;
+      opacity: 1;
+    }
   }
-
-  @media only screen and (max-width: 500px) {
-   width:100%;
-  }
-
-  
 `;
 
 const ModalBody = styled.div`
@@ -62,6 +57,21 @@ const ModalBody = styled.div`
     display: flex;
     flex-direction: column;
     gap: 1rem;
+
+    div:has(input[type="checkbox"]) {
+      display: flex;
+      flex-direction: row;
+      gap: 1rem;
+      justify-content: end;
+      align-items: center;
+      margin-bottom: 1rem;
+
+      @media only screen and (max-width: 500px) {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap-column: 2rem;
+      }
+    }
   }
 `;
 

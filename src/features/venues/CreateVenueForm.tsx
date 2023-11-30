@@ -8,10 +8,12 @@ import Heading from "../../ui/Heading";
 import Input from "../../ui/Input";
 import { StyledErrosMessage } from "../authentication/Register";
 import Button from "../../ui/Button";
-import { GridColsTwo } from "../../ui/Grid";
+import { GridAuto, GridCols, GridColsTwo } from "../../ui/Grid";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/authContext";
-import FlexContainer from "../../ui/FlexContainer";
+import FlexContainer, { StyledFlexContainer } from "../../ui/FlexContainer";
+import { ListHorizonlat, ListVertical } from "../../ui/List";
+import { Row } from "../../ui/Row";
 
 interface FormDataProps {
   name: string;
@@ -104,7 +106,7 @@ export function CreteVenueForm() {
           error={errors.media?.message}
           required={{ value: true, message: "Media is required." }}
         />
-        <GridColsTwo>
+        <Row>
           <Input
             label="Price*"
             id="price"
@@ -122,12 +124,12 @@ export function CreteVenueForm() {
             error={errors.maxGuests?.message}
             required={{ value: true, message: "Number of maximus guests required" }}
           />
-        </GridColsTwo>
+        </Row>
         <Input label="Rating" id="rating" type="number" register={register} error={errors.rating?.message} />
 
         <Heading as="h2">Services: </Heading>
 
-        <FlexContainer>
+        <div>
           <Input label="Wifi" id="wifi" type="checkbox" register={register} error={errors.wifi?.message} />
           <Input label="Parking" id="parking" type="checkbox" register={register} error={errors.parking?.message} />
 
@@ -139,7 +141,7 @@ export function CreteVenueForm() {
             error={errors.breakfast?.message}
           />
           <Input label="Pets" id="pets" type="checkbox" register={register} error={errors.pets?.message} />
-        </FlexContainer>
+        </div>
 
         <Heading as="h2">Location: </Heading>
         <Input label="Address" id="address" type="text" register={register} error={errors.address?.message} />
@@ -147,10 +149,10 @@ export function CreteVenueForm() {
         <Input label="Zip code" id="zip" type="text" register={register} error={errors.zip?.message} />
         <Input label="Country " id="country" type="text" register={register} error={errors.country?.message} />
         <Input label="Continent " id="continent" type="text" register={register} error={errors.continent?.message} />
-        <GridColsTwo>
+        <Row>
           <Input label="Lat" id="lat" type="number" register={register} error={errors.lat?.message} />
           <Input label="Lng" id="lng" type="number" register={register} error={errors.lng?.message} />
-        </GridColsTwo>
+        </Row>
         {serverErrors && <StyledErrosMessage>{serverErrors}</StyledErrosMessage>}
         <Button variation="primary" type="submit">
           Continue
