@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import { SkeletonButton, SkeletonImageSmall, SkeletonText, SkeletonTitle } from ".";
-import FlexContainer from "../FlexContainer";
 import { GridColsTwo } from "../Grid";
 
 const StyledSkeletonVenuePage = styled.main`
@@ -17,11 +16,16 @@ const StyledSkeletonVenuePage = styled.main`
       opacity: 0.5;
     }
   }
+`;
+const StyledVenueList = styled.div`
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: auto 1fr 1fr auto;
+  align-items: center;
+  margin: 3rem 0;
 
-  @media only screen and (max-width: 650px) {
-    & GridColsTwo {
-      display: block;
-    }
+  @media only screen and (max-width: 800px) {
+    grid-template-columns: 1fr;
   }
 `;
 
@@ -29,27 +33,22 @@ function SkeletonVenuesPage() {
   return (
     <StyledSkeletonVenuePage>
       {[1, 2, 3, 4, 5].map((_, index) => (
-        <GridColsTwo key={index}>
+        <StyledVenueList key={index}>
+          <SkeletonImageSmall />
+          <div>
+            <SkeletonTitle />
+            <SkeletonText />
+          </div>
+
+          <div>
+            <SkeletonTitle />
+            <SkeletonText />
+          </div>
           <GridColsTwo>
-            <SkeletonImageSmall />
-            <div>
-              <SkeletonTitle />
-              <SkeletonText />
-              <SkeletonText />
-            </div>
+            <SkeletonButton />
+            <SkeletonButton />
           </GridColsTwo>
-          <GridColsTwo>
-            <div>
-              <SkeletonTitle />
-              <SkeletonText />
-              <SkeletonText />
-            </div>
-            <FlexContainer>
-              <SkeletonButton />
-              <SkeletonButton />
-            </FlexContainer>
-          </GridColsTwo>
-        </GridColsTwo>
+        </StyledVenueList>
       ))}
     </StyledSkeletonVenuePage>
   );

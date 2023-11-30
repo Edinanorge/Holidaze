@@ -17,7 +17,7 @@ import { AuthProvider } from "./context/authContext.tsx";
 import CreateVenuePage from "./pages/venues/CreateVenue.tsx";
 import UpdateVenuePage from "./pages/venues/UpdateVenues.tsx";
 import ProfileUpdate from "./pages/profile/ProfileUpdate.tsx";
-import Venues from "./features/venues/Venues.tsx";
+import Venues from "./features/venues/VenuesSearch.tsx";
 
 const router = createBrowserRouter([
   {

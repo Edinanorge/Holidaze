@@ -13,7 +13,6 @@ import Heading from "../../ui/Heading";
 import Page from "../../ui/Page";
 import SkeletonProfilePage from "../../ui/Skeleton/SkeletonProfilePage";
 import Button from "../../ui/Button";
-import placeholder from "../../assets/placeholder.jpg";
 import { GridColsTwo } from "../../ui/Grid";
 
 interface ProfileProps {
@@ -134,7 +133,7 @@ function Profile() {
           <>
             <StyledGridColsTwo>
               <StyledProfile>
-                <img src={profile.avatar ? profile.avatar : placeholder} alt="Avatar" />
+                <img src={profile.avatar ? profile.avatar : "/placeholder.jpg"} alt="Avatar" />
                 <NavLink to={`/profiles/${userName}/media`}>
                   <FaEdit />
                 </NavLink>

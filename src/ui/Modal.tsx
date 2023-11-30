@@ -18,7 +18,7 @@ const StyledModal = styled.main`
   left: 0;
   right: 0;
 
-  z-index: 999;
+  z-index: 9999;
   background-color: rgb(3 3 3 / 0.5);
   overflow-y: scroll;
   overflow-x: hidden;
@@ -49,6 +49,12 @@ const ModalContent = styled.div`
       transform: translateY(0);
       opacity:1;
   }
+
+  @media only screen and (max-width: 500px) {
+   width:100%;
+  }
+
+  
 `;
 
 const ModalBody = styled.div`
@@ -56,19 +62,6 @@ const ModalBody = styled.div`
     display: flex;
     flex-direction: column;
     gap: 1rem;
-  }
-
-  div:has(input[type="checkbox"]) {
-    display: flex;
-    flex-direction: row;
-    gap: 1rem;
-    justify-content: end;
-    align-items: center;
-    margin-bottom: 1rem;
-  }
-
-  & input {
-    padding: 0.5rem 1rem;
   }
 `;
 

@@ -49,11 +49,14 @@ function BookingItem({ booking }: BookingItemProps) {
     <StyledHorizontalListItem key={booking.id}>
       <StyledImage src={media[0]} alt="Venue image" />
       <NavLink to={`/venues/${id}`}>
-        <Heading as="h2">{location.address != "Unknown" ? location.address : booking.venue.name}</Heading>
-        <p>{location.country}</p>
+        <Heading as="h2">{location.country != "Unknown" ? location.country : booking.venue.name}</Heading>
+        <p>{location.address}</p>
 
         <p>
-          From <i>{formatDate(booking.dateFrom)}</i> To <i>{formatDate(booking.dateTo)}</i>
+          From <b>{formatDate(booking.dateFrom)}</b>
+        </p>
+        <p>
+          To <b>{formatDate(booking.dateTo)}</b>
         </p>
       </NavLink>
     </StyledHorizontalListItem>

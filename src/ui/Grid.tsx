@@ -30,4 +30,8 @@ export const GridColsTwo = styled.div`
   grid-template-columns: repeat(2, 1fr);
   align-items: center;
   gap: 2rem;
+
+  @media only screen and (max-width: 500px) {
+    gap: 0.5rem;
+  }
 `;

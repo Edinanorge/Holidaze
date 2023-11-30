@@ -10,6 +10,7 @@ import Button from "../../ui/Button";
 
 import { updateVenue } from "../../services/apiVenues";
 import { StyledErrosMessage } from "../authentication/Register";
+import FlexContainer from "../../ui/FlexContainer";
 
 interface FormDataProps {
   name: string;
@@ -129,7 +130,7 @@ function UpdateVenueForm() {
 
         <Heading as="h2">Services: </Heading>
 
-        <GridColsTwo>
+        <FlexContainer>
           <Input label="Wifi" id="wifi" type="checkbox" register={register} error={errors.wifi?.message} />
           <Input label="Parking" id="parking" type="checkbox" register={register} error={errors.parking?.message} />
 
@@ -141,7 +142,7 @@ function UpdateVenueForm() {
             error={errors.breakfast?.message}
           />
           <Input label="Pets" id="pets" type="checkbox" register={register} error={errors.pets?.message} />
-        </GridColsTwo>
+        </FlexContainer>
 
         <Heading as="h2">Location: </Heading>
         <Input label="Address" id="address" type="text" register={register} error={errors.address?.message} />

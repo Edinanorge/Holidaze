@@ -1,13 +1,12 @@
 import styled from "styled-components";
 import { GridColsTwo } from "../../ui/Grid";
 import Heading from "../../ui/Heading";
-
+//import placeholder from "/placeholder.jpg";
 import { FaSquareParking } from "react-icons/fa6";
 import { MdFreeBreakfast, MdPets, MdShoppingBasket, MdAirplanemodeActive } from "react-icons/md";
 import { BsDot } from "react-icons/bs";
 import { AiFillStar, AiOutlineWifi } from "react-icons/ai";
 import Button from "../../ui/Button";
-import placeholder from "../../assets/placeholder.jpg";
 import { NavLink } from "react-router-dom";
 import { useAuth } from "../../context/authContext";
 
@@ -111,7 +110,7 @@ function Details({ venue }: VenueProp) {
       </StyledDetails>
       <hr />
       <StyledHosteInfo>
-        <img src={venue.owner.avatar ? venue.owner.avatar : placeholder} alt="avartar" />
+        <img src={venue.owner.avatar ? venue.owner.avatar : "/placeholder.jpg"} alt="avartar" />
         {isAuthenticated ? (
           <NavLink to={`/profiles/${venue.owner.name}`}>
             <Heading as="h3">Hosted By {venue.owner.name}</Heading>

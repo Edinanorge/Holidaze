@@ -64,7 +64,7 @@ function VenuesByProfile() {
     setTimeout(() => {
       fetchData();
     }, 1000);
-  }, [venues]);
+  }, []);
 
   return (
     <Page>

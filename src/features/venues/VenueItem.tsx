@@ -5,6 +5,7 @@ import { StyledListItem } from "../../ui/List";
 import StyledImage from "../../ui/Image";
 import Button from "../../ui/Button";
 import Heading from "../../ui/Heading";
+import { GridColsTwo } from "../../ui/Grid";
 
 interface VenueItemProp {
   id: string;
@@ -43,7 +44,7 @@ interface VenueItemProps {
 function VenueItem({ venue, onDelete, onUpdate }: VenueItemProps) {
   return (
     <StyledListItem>
-      <StyledImage fullsize={true} src={venue.media[0]} alt="Venue Image" />
+      <StyledImage fullsize src={venue.media[0]} alt="Venue Image" />
       <NavLink to={`/venues/${venue.id}`}>
         <Heading as="h2">{venue.name}</Heading>
         <p>Price: {formatCurrency(venue.price)}</p>
@@ -54,19 +55,23 @@ function VenueItem({ venue, onDelete, onUpdate }: VenueItemProps) {
           {venue.bookings.length > 0
             ? venue.bookings.map((booking) => (
                 <p key={booking.id}>
-                  Booked: {formatDate(booking.dateFrom)} - {formatDate(booking.dateTo)}
+                  Booked:{" "}
+                  <b>
+                    {formatDate(booking.dateFrom)} - {formatDate(booking.dateTo)}
+                  </b>
                 </p>
               ))
             : "Available. "}
         </div>
       </div>
-
-      <Button variation="outline" onClick={() => onUpdate()}>
-        Edit
-      </Button>
-      <Button variation="outline" onClick={() => onDelete()}>
-        Delete
-      </Button>
+      <GridColsTwo>
+        <Button variation="outline" onClick={() => onUpdate()}>
+          Edit
+        </Button>
+        <Button variation="outline" onClick={() => onDelete()}>
+          Delete
+        </Button>
+      </GridColsTwo>
     </StyledListItem>
   );
 }

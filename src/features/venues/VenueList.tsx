@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import Heading from "../../ui/Heading.js";
-import image from "../../assets/venue-placeholder.svg";
+
 import { formatDate } from "../../utils/formatDate.js";
 import { AiFillStar } from "react-icons/ai";
 import { GridAuto } from "../../ui/Grid.js";
@@ -56,11 +56,17 @@ const VenueImage = styled.img`
 
 const VenueContent = styled.div`
   display: flex;
+  gap: 1rem;
   justify-content: space-between;
 
   & span {
+    margin: 0;
     font-size: 1.4rem;
     color: #444;
+  }
+
+  p {
+    margin-top: 0.6rem;
   }
 `;
 
@@ -68,7 +74,7 @@ function Venue({ id, name, media, price, created, rating, location, maxGuests }:
   return (
     <Link to={`/venues/${id}`}>
       <StyledVenue>
-        <VenueImage src={media[0] ? media[0] : image} alt={name} loading="lazy" />
+        <VenueImage src={media[0] ? media[0] : "/venue-placeholder.svg"} alt={name} loading="lazy" />
         <VenueContent>
           <div>
             <Heading as="h2">{name}</Heading>

@@ -21,6 +21,11 @@ const StyledFooter = styled.footer`
   & button {
     padding-right: 0;
   }
+
+
+  @media only screen and (max-width: 500px) {
+    padding: 0;
+  }
 `;
 
 const StyledFooterSecondary = styled.div`

@@ -25,12 +25,12 @@ export const StyledListItem = styled.li`
   border-top: var(--border);
   padding-top: 3rem;
   display: grid;
-  grid-template-columns: auto repeat(2, 1fr) auto auto;
+  grid-template-columns: auto repeat(2, 1fr) auto;
   gap: 2rem;
   align-items: center;
 
   @media only screen and (max-width: 800px) {
-    display: block;
+    grid-template-columns: 1fr;
 
     & button {
       margin-right: 2rem;

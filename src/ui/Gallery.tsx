@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import placeholder from "../assets/venue-placeholder.svg";
 
 interface VenueProps {
   key: string;
@@ -71,9 +70,9 @@ function Gallery({ venue }: VenueProp) {
     <StyledGallery>
       <img src={venue.media[0]} alt={venue.name} />
       <img src={venue.media[0]} alt={venue.name} />
-      <img src={venue.media[1] ? venue.media[1] : placeholder} alt={venue.name} />
-      <img src={venue.media[2] ? venue.media[2] : placeholder} alt={venue.name} />
-      <img src={venue.media[3] ? venue.media[3] : placeholder} alt={venue.name} />
+      <img src={venue.media[1] ? venue.media[1] : "/venue-placeholder.svg"} alt={venue.name} />
+      <img src={venue.media[2] ? venue.media[2] : "/venue-placeholder.svg"} alt={venue.name} />
+      <img src={venue.media[3] ? venue.media[3] : "/venue-placeholder.svg"} alt={venue.name} />
     </StyledGallery>
   );
 }
