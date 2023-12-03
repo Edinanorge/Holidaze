@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { FaEdit, FaRegCheckCircle } from "react-icons/fa";
 import toast from "react-hot-toast";
 
-import { getProfile, updateProfile } from "../../services/apiProfile";
+import { getProfile, updateProfile } from "../../services/apiProfile.js";
 import { useAuth } from "../../context/authContext";
 
 import styled from "styled-components";

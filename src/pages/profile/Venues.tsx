@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../../context/authContext";
-import { getVenues } from "../../services/apiProfile";
+import { getVenues } from "../../services/apiProfile.js";
 import Container from "../../ui/Container";
 import Page from "../../ui/Page";
 import SkeletonVenuesPage from "../../ui/Skeleton/SkeletonVenuesPage";
@@ -51,9 +51,10 @@ function VenuesByProfile() {
     setLoading(false);
   };
 
-  const handleDeleteVenue = async (venueId: string) => {
-    await deleteVenue(venueId, authToken);
+  const handleDeleteVenue = (venueId: string) => {
+    deleteVenue(venueId, authToken);
     toast.success("Venue successfully deleted.");
+    fetchData();
   };
 
   const handleUpdatedVenue = (venue: VenueItemProp) => {

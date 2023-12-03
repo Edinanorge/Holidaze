@@ -1,7 +1,6 @@
 export function formatDate(string: string) {
-  //return string.slice(0, 10);
   const date = new Date(string);
-  const formatter = new Intl.DateTimeFormat("en-US", {
+  const formatter = new Intl.DateTimeFormat("no-NO", {
     dateStyle: "short",
     timeStyle: "short",
   });

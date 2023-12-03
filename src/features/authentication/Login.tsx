@@ -13,7 +13,7 @@ import { BsApple } from "react-icons/bs";
 import { IoMailOutline } from "react-icons/io5";
 import { StyledErrosMessage } from "./Register";
 
-import { loginUser } from "../../services/aoiAuth";
+import { loginUser } from "../../services/apiAuth.tsx";
 import { useAuth } from "../../context/authContext";
 
 interface FormDataLoginProps {

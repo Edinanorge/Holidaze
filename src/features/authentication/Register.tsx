@@ -11,7 +11,7 @@ import { FaSquareFacebook } from "react-icons/fa6";
 import { FcGoogle } from "react-icons/fc";
 import { BsApple } from "react-icons/bs";
 import { IoMailOutline } from "react-icons/io5";
-import { registerUser } from "../../services/aoiAuth";
+import { registerUser } from "../../services/apiAuth.tsx";
 import styled from "styled-components";
 
 interface FormDataProps {

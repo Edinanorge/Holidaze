@@ -102,7 +102,7 @@ function Venues() {
 
   const form = useForm({
     defaultValues: {
-      destination: location.state.destination,
+      destination: location.state.destination ?? "",
       dateRange: {
         startDate: dateRange.startDate,
         endDate: dateRange.endDate,
@@ -143,11 +143,11 @@ function Venues() {
   };
 
   const onSubmit = (formData: FormDataProps): void => {
+    console.log(formData);
     const newFilteredVenues = venues.filter((venue: VenueItemProp) => {
       const countryMatches = venue.location.country.toLowerCase().includes(formData.destination.toLowerCase());
       const cityMatches = venue.location.city.toLowerCase().includes(formData.destination.toLowerCase());
       const addressMatches = venue.location.address.toLowerCase().includes(formData.destination.toLowerCase());
-      const titleMatch = venue.name.toLowerCase().includes(formData.destination.toLowerCase());
       const ratingMatch = venue.rating >= formData.rating;
       const guestLimitMatch = venue.maxGuests >= formData.guests;
       const wifiMatch = venue.meta.wifi === formData.wifi;
@@ -155,7 +155,7 @@ function Venues() {
       const petMatch = venue.meta.pets === formData.pets;
       const breakFastMatch = venue.meta.breakfast === formData.breakfast;
       return (
-        (cityMatches || countryMatches || addressMatches || titleMatch) &&
+        (cityMatches || countryMatches || addressMatches) &&
         guestLimitMatch &&
         (wifiMatch || parkingMatch || petMatch || breakFastMatch) &&
         ratingMatch
@@ -230,14 +230,7 @@ function Venues() {
             <Button variation="secondary">Search</Button>
           </StyledForm>
           {loading && <SkeletonVenueList />}
-
-          {filteredVenues.length !== 0 ? (
-            <VenuesList venues={filteredVenues} />
-          ) : (
-            venues && <VenuesList venues={venues} />
-          )}
-
-          {filteredVenues.length === 0 && !loading && <p>No match</p>}
+          {filteredVenues.length !== 0 ? <VenuesList venues={filteredVenues} /> : <p>No match</p>}
         </StyledGridColsTwo>
       </Container>
     </Page>

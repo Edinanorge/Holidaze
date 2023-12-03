@@ -166,11 +166,18 @@ function Venue() {
                   />
                 </StyledDates>
               </div>
-              <BookingForm venue={venue} selectedDateRange={selectedDateRange} />
+              <BookingForm
+                venue={venue}
+                selectedDateRange={selectedDateRange}
+                onDateRangeChange={handleDateRangeChange}
+              />
             </StyledGridColsTwo>
 
             <hr />
             <Location position={[venue.location.lat, venue.location.lng]} name={venue.name} />
+            <Heading as="h3">
+              {venue.location.address}, {venue.location.city}, {venue.location.country}{" "}
+            </Heading>
           </div>
         )}
       </Container>

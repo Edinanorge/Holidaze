@@ -61,7 +61,7 @@ const MenuItem = styled(NavLink)`
 function UserMenu() {
   const [isOpen, setIsOpen] = useState(false);
   const { isAuthenticated, isManager, logout, userName } = useAuth();
-  let menuRef = useRef<HTMLDivElement>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handler = (e: MouseEvent) => {

@@ -5,7 +5,7 @@ import Input from "../../ui/Input";
 import Modal from "../../ui/Modal";
 import { useAuth } from "../../context/authContext";
 import { useNavigate } from "react-router-dom";
-import { updateAvatar } from "../../services/apiProfile";
+import { updateAvatar } from "../../services/apiProfile.js";
 import Button from "../../ui/Button";
 import { StyledErrosMessage } from "../authentication/Register";
 

@@ -67,9 +67,8 @@ function Home() {
   return (
     <Page>
       <Container>
-        {loading && <SkeletonVenueList />}
         {venues && <VenuesList venues={venues} />}
-
+        {loading && <SkeletonVenueList />}
         <TextCenter>
           <Heading as="h4">Continue exploring beautiful homes</Heading>
           <Button
@@ -88,5 +87,3 @@ function Home() {
 }
 
 export default Home;
-
-

@@ -22,7 +22,6 @@ const StyledFooter = styled.footer`
     padding-right: 0;
   }
 
-
   @media only screen and (max-width: 500px) {
     padding: 0;
   }

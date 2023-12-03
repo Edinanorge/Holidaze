@@ -5,7 +5,7 @@ import "react-date-range/dist/theme/default.css";
 import { BiSearch } from "react-icons/bi";
 import Button from "../Button";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { DateRange } from "react-date-range";
 import { useNavigate } from "react-router-dom";
 
@@ -133,6 +133,7 @@ function Search() {
   });
   const [openGuests, setOpenGuests] = useState(false);
   const [guests, setGuests] = useState<GuestProps>({ adult: 1, children: 0, room: 1 });
+  const menuRef = useRef<HTMLDivElement>(null);
 
   function handleChange(name: string, operation: string) {
     setGuests((prev) => {
@@ -152,8 +153,20 @@ function Search() {
     setDateRange(ranges.selection);
   };
 
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+        setOpenDate(false);
+        setOpenGuests(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, []);
+
   return (
-    <StyledSearch>
+    <StyledSearch ref={menuRef}>
       <StyledSearchInput placeholder="Anywhere" type="text" onChange={(e) => setDestination(e.target.value)} />
 
       <StyledSearchOption onClick={() => setOpenDate(!openDate)}>Any week</StyledSearchOption>

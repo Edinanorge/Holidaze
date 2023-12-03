@@ -10,7 +10,6 @@ import Button from "../../ui/Button";
 
 import { updateVenue } from "../../services/apiVenues";
 import { StyledErrosMessage } from "../authentication/Register";
-import FlexContainer from "../../ui/FlexContainer";
 import { Row } from "../../ui/Row";
 
 interface FormDataProps {
@@ -71,9 +70,8 @@ function UpdateVenueForm() {
     const data = await updateVenue(formData, venue.id, authToken);
     //handling server errors
     if (data.errors) {
-      setServerErrors(data.errors[0].message);
+      setServerErrors(`${data.errors[0].message} (${data.errors[0].path})`);
     } else {
-      setServerErrors("");
       navigate(`/profiles/${userName}/venues`);
     }
   };

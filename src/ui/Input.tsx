@@ -36,6 +36,7 @@ export const StyledDateInput = styled.div`
   p {
     border: var(--border);
     padding: 1rem 0.5rem;
+    cursor: pointer;
   }
 `;
 

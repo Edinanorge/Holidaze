@@ -80,7 +80,7 @@ function Venue({ id, name, media, price, created, rating, location, maxGuests }:
             <Heading as="h2">{name}</Heading>
             <span>Maximum guests: {maxGuests}</span>
             <p>
-              {formatDate(created)} . {location.country === "Unknown" ? "" : location.country}
+              Created: {formatDate(created)} | {location.country === "Unknown" ? "" : location.country}
             </p>
             <Heading as="h3">
               {price} kr /<span>night</span>

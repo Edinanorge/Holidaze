@@ -103,6 +103,7 @@ export function CreteVenueForm() {
           error={errors.media?.message}
           required={{ value: true, message: "Media is required." }}
         />
+
         <Row>
           <Input
             label="Price*"

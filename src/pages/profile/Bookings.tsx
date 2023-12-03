@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { useAuth } from "../../context/authContext";
-import { getBookings } from "../../services/apiProfile";
+import { getBookings } from "../../services/apiProfile.js";
 
 import Heading from "../../ui/Heading";
 import SkeletonBookingPage from "../../ui/Skeleton/SkeletonBookingsPage";

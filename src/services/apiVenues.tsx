@@ -19,8 +19,9 @@ interface FormDataProps {
   lat: number;
   lng: number;
 }
+
 export async function getAllVenues() {
-  const res = await fetch(`${API_URL}/venues?_bookings=true`);
+  const res = await fetch(`${API_URL}/venues?_bookings=true&sort=created&sortOrder=desc`);
 
   if (!res.ok) throw Error("Failed getting venues.");
 
@@ -30,7 +31,7 @@ export async function getAllVenues() {
 }
 
 export async function getVenues(limit: number, offset: number) {
-  const res = await fetch(`${API_URL}/venues?limit=${limit}&offset=${offset}`);
+  const res = await fetch(`${API_URL}/venues?limit=${limit}&offset=${offset}&sort=created&sortOrder=desc`);
 
   if (!res.ok) throw Error("Failed getting venues.");
 
