@@ -27,7 +27,7 @@ const Heading = styled.h1`
     css`
       font-size: 3rem;
       font-weight: 600;
-      margin-bottom: 2rem;
+      margin-top: 6rem;
     `}
    
     

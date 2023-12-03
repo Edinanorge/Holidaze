@@ -117,7 +117,7 @@ function Venues() {
     },
   });
 
-  const { register, handleSubmit, formState, setValue } = form;
+  const { register, handleSubmit, formState, setValue, getValues } = form;
   const { errors } = formState;
 
   const fetchData = async () => {
@@ -143,25 +143,37 @@ function Venues() {
   };
 
   const onSubmit = (formData: FormDataProps): void => {
-    console.log(formData);
+    filterVenues(formData);
+  };
+
+  const filterVenues = (formData: FormDataProps) => {
     const newFilteredVenues = venues.filter((venue: VenueItemProp) => {
-      const countryMatches = venue.location.country.toLowerCase().includes(formData.destination.toLowerCase());
-      const cityMatches = venue.location.city.toLowerCase().includes(formData.destination.toLowerCase());
-      const addressMatches = venue.location.address.toLowerCase().includes(formData.destination.toLowerCase());
       const ratingMatch = venue.rating >= formData.rating;
       const guestLimitMatch = venue.maxGuests >= formData.guests;
       const wifiMatch = venue.meta.wifi === formData.wifi;
       const parkingMatch = venue.meta.parking === formData.parking;
       const petMatch = venue.meta.pets === formData.pets;
       const breakFastMatch = venue.meta.breakfast === formData.breakfast;
-      return (
-        (cityMatches || countryMatches || addressMatches) &&
-        guestLimitMatch &&
-        (wifiMatch || parkingMatch || petMatch || breakFastMatch) &&
-        ratingMatch
-      );
+
+      if (formData.destination === "") {
+        // If destination is empty, return venues that match any criteria
+        return ratingMatch || guestLimitMatch || wifiMatch || parkingMatch || petMatch || breakFastMatch;
+      } else {
+        // If destination is set, apply destination-related checks
+        const destinationLower = formData.destination.toLowerCase();
+        const countryMatches = venue.location.country.toLowerCase().includes(destinationLower);
+        const cityMatches = venue.location.city.toLowerCase().includes(destinationLower);
+        const addressMatches = venue.location.address.toLowerCase().includes(destinationLower);
+
+        return (
+          (cityMatches || countryMatches || addressMatches) &&
+          guestLimitMatch &&
+          (wifiMatch || parkingMatch || petMatch || breakFastMatch) &&
+          ratingMatch
+        );
+      }
     });
-    console.log(newFilteredVenues);
+
     setFilteredVenues(newFilteredVenues);
   };
 
@@ -176,7 +188,6 @@ function Venues() {
               id="destination"
               register={register}
               error={errors.destination?.message}
-              required={{ value: true, message: "Destination is required" }}
             />
             <GridColsTwo>
               <StyledDateInput onClick={() => setIsOpen(!isOpen)}>
@@ -230,6 +241,7 @@ function Venues() {
             <Button variation="secondary">Search</Button>
           </StyledForm>
           {loading && <SkeletonVenueList />}
+
           {filteredVenues.length !== 0 ? <VenuesList venues={filteredVenues} /> : <p>No match</p>}
         </StyledGridColsTwo>
       </Container>

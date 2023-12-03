@@ -70,7 +70,7 @@ function Home() {
         {venues && <VenuesList venues={venues} />}
         {loading && <SkeletonVenueList />}
         <TextCenter>
-          <Heading as="h4">Continue exploring beautiful homes</Heading>
+          <Heading as="h4">Continue exploring beautiful homes...</Heading>
           <Button
             variation="dark"
             onClick={() => {

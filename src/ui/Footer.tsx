@@ -6,10 +6,7 @@ import { GridCols } from "./Grid";
 
 const StyledFooter = styled.footer`
   width: 100%;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  position: relative;
   z-index: 999;
   border-top: var(--border);
   background-color: var(--color-gray-0);
